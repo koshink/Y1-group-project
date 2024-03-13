@@ -8,7 +8,7 @@ TextLCD lcd(D0,D1,D2,D3,D4,D5, TextLCD::LCD20x4);
 //Buttons
 DigitalIn menu(D15, PullUp), action(D14, PullUp), up(D13, PullUp), left(D12, PullUp), down(D11, PullUp), right(D10, PullUp);
 
-
+// main loop
 int main() {
     lcd.cls();
     lcd.locate(0,0);
