@@ -20,23 +20,18 @@
  * THE SOFTWARE.
  */
 
-
 #include "TextLCD.h"
 #include "mbed.h"
-
 
 TextLCD::TextLCD(PinName rs, PinName e, PinName d4, PinName d5,
                  PinName d6, PinName d7, LCDType type) : _rs(rs),
         _e(e), _d(d4, d5, d6, d7),
         _type(type) {
 
-
     _e  = 1;
     _rs = 0;            // command mode
 
-
     thread_sleep_for(15);        // thread_sleep_for 15ms to ensure powered up
-
 
     // send "Display Settings" 3 times (Only top nibble of 0x30 as we've got 4-bit bus)
     for (int i=0; i<3; i++) {
@@ -46,13 +41,11 @@ TextLCD::TextLCD(PinName rs, PinName e, PinName d4, PinName d5,
     writeByte(0x2);     // 4-bit mode
     thread_sleep_for(1);    // most instructions take 40us
 
-
     writeCommand(0x28); // Function set 001 BW N F - -
     writeCommand(0x0C);
     writeCommand(0x6);  // Cursor Direction and Display Shift : 0000 01 CD S (CD 0-left, 1-right S(hift) 0-no, 1-yes
     cls();
 }
-
 
 void TextLCD::character(int column, int row, int c) {
     int a = address(column, row);
@@ -60,19 +53,16 @@ void TextLCD::character(int column, int row, int c) {
     writeData(c);
 }
 
-
 void TextLCD::cls() {
     writeCommand(0x01); // cls, and set cursor to 0
     thread_sleep_for(2);     // This command takes 1.64 ms
     locate(0, 0);
 }
 
-
 void TextLCD::locate(int column, int row) {
     _column = column;
     _row = row;
 }
-
 
 int TextLCD::_putc(int value) {
     if (value == '\n') {
@@ -95,11 +85,9 @@ int TextLCD::_putc(int value) {
     return value;
 }
 
-
 int TextLCD::_getc() {
     return -1;
 }
-
 
 void TextLCD::writeByte(int value) {
     _d = value >> 4;
@@ -114,18 +102,15 @@ void TextLCD::writeByte(int value) {
     _e = 1;
 }
 
-
 void TextLCD::writeCommand(int command) {
     _rs = 0;
     writeByte(command);
 }
 
-
 void TextLCD::writeData(int data) {
     _rs = 1;
     writeByte(data);
 }
-
 
 int TextLCD::address(int column, int row) {
     switch (_type) {
@@ -149,7 +134,6 @@ int TextLCD::address(int column, int row) {
     }
 }
 
-
 int TextLCD::columns() {
     switch (_type) {
         case LCD20x4:
@@ -162,7 +146,6 @@ int TextLCD::columns() {
     }
 }
 
-
 int TextLCD::rows() {
     switch (_type) {
         case LCD20x4:
@@ -174,6 +157,3 @@ int TextLCD::rows() {
             return 2;
     }
 }
-
-
-
