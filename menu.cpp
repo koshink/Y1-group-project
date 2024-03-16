@@ -33,4 +33,9 @@ void Menu::selectOption() {
     lcd.printf("Launching");
     lcd.locate(0, 1);
     lcd.printf("%s", options[selectedOption]);
+
+    if (currentOption == "Electron Race") {
+        ElectronRace game(lcd);
+        game.startGame();
+    }
 }
