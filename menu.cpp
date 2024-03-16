@@ -34,6 +34,7 @@ void Menu::selectOption() {
     lcd.printf("Launching");
     lcd.locate(0, 1);
     lcd.printf("%s", options[selectedOption]);
+    thread_sleep_for(500);
 
     if (selectedOption == 0) {
         ElectronRace game(lcd, up, down);
