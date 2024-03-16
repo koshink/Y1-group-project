@@ -1,7 +1,8 @@
 #include "menu.h"
+#include "ElectronRace.h"
 
-Menu::Menu(TextLCD& lcd) : lcd(lcd), selectedOption(0) {
-    options[0] = "Electron Dash";
+Menu::Menu(TextLCD &lcd, DigitalIn &up, DigitalIn &down) : lcd(lcd), up(up), down(down), selectedOption(0) {
+    options[0] = "Electron Race";
     options[1] = "Quiz Race";
 }
 
@@ -34,8 +35,8 @@ void Menu::selectOption() {
     lcd.locate(0, 1);
     lcd.printf("%s", options[selectedOption]);
 
-    if (currentOption == "Electron Race") {
-        ElectronRace game(lcd);
+    if (selectedOption == 0) {
+        ElectronRace game(lcd, up, down);
         game.startGame();
     }
 }
