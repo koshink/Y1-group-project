@@ -31,27 +31,24 @@ void ElectronRace::handleInput() {
 void ElectronRace::updateGame() {
     for (int i = 0; i < obstacleCount; ++i) {
         --obstacles[i].column;
-
-        // If the back of the obstacle is off the screen, remove it
         if (obstacles[i].column + obstacles[i].length < 0) {
-            // Shift all obstacles to the left to fill the gap
             for (int j = i; j < obstacleCount - 1; ++j) {
                 obstacles[j] = obstacles[j + 1];
             }
 
             --obstacleCount;
             generateObstacle();
-
             ++score;
         }
     }
 
     for (int i = 0; i < obstacleCount; ++i) {
         if (playerPos >= obstacles[i].row && playerPos < obstacles[i].row + obstacles[i].length) {
-            score = 0;
+            gameOver(score);
         }
     }
 }
+
 
 
 void ElectronRace::generateObstacle() {
@@ -66,6 +63,13 @@ void ElectronRace::generateObstacle() {
     }
 
     obstacles[obstacleCount++] = {lcd.columns() - 1, position, length};
+}
+
+void ElectronRace::gameOver(int score) {
+    lcd.locate(0,0);
+    lcd.printf("GAME OVER");
+    lcd.locate(0,1);
+    lcd.printf("Score: %d", score);
 }
 
 void ElectronRace::renderGame() {

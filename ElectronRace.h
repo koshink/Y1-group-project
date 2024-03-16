@@ -18,15 +18,17 @@ private:
     int playerPos;
     int obstaclePos;
     int score;
-    Obstacle obstacles[10];
+    Obstacle obstacles[3];
     int obstacleCount;
 
     void updateGame();
     void renderGame();
     void handleInput();
     void generateObstacle();
+  
 
 public:
     ElectronRace(TextLCD &lcd, DigitalIn &Up, DigitalIn &Down);
     void startGame();
+    void gameOver(int score);
 };
