@@ -12,7 +12,7 @@ DigitalIn menuButton(D15, PullUp), action(D14, PullUp), up(D13, PullUp), left(D1
 int main() {
     lcd.cls();
     lcd.locate(0,0);
-    Menu menu(lcd);
+    Menu menu(lcd, up, down);
     menu.displayMenu();
     while (true) {
         if (menuButton == false) {
