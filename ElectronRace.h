@@ -26,7 +26,7 @@ private:
     void renderGame();
     void handleInput();
     void generateObstacle();
-    // bool checkGameOver();
+    bool checkGameOver();
   
 
 public:

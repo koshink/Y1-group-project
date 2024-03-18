@@ -12,11 +12,11 @@ void ElectronRace::startGame() {
         handleInput();
         updateGame();
         renderGame();
-        // isGameOver = checkGameOver();
+        isGameOver = checkGameOver();
         thread_sleep_for(100);
-        // if (isGameOver == true) {
-        //     break;
-        // }
+        if (isGameOver == true) {
+            break;
+        }
     }
 }
 
@@ -47,20 +47,20 @@ void ElectronRace::updateGame() {
     }
 }
 
-// bool ElectronRace::checkGameOver() {
-//     for (int i = 0; i < obstacleCount; ++i) {
-//         if () {
-//             lcd.locate(0,0);
-//             lcd.printf("GAME OVER");
-//             lcd.locate(0,1);
-//             lcd.printf("Score: %d", score);
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     }
-//     return false;
-// }
+bool ElectronRace::checkGameOver() {
+    for (int i = 0; i < obstacleCount; ++i) {
+        if (obstacles[i].column == 2 && playerPos == obstacles[i].row) {
+            lcd.locate(0,0);
+            lcd.printf("GAME OVER");
+            lcd.locate(0,1);
+            lcd.printf("Score: %d", score);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    return false;
+}
 
 void ElectronRace::generateObstacle() {
     int length = 1; 
@@ -83,5 +83,5 @@ void ElectronRace::renderGame() {
     }
 
     lcd.locate(0, 0);
-    // lcd.printf("%d", score);
+    lcd.printf("%d", score);
 }
