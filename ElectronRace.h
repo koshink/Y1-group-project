@@ -20,15 +20,16 @@ private:
     int score;
     Obstacle obstacles[3];
     int obstacleCount;
+    bool isGameOver;
 
     void updateGame();
     void renderGame();
     void handleInput();
     void generateObstacle();
+    // bool checkGameOver();
   
 
 public:
     ElectronRace(TextLCD &lcd, DigitalIn &Up, DigitalIn &Down);
     void startGame();
-    void gameOver(int score);
 };

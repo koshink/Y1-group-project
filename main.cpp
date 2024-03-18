@@ -2,6 +2,9 @@
 #include "TextLCD.h"
 #include "menu.h"
 
+//temporary import
+#include "ElectronRace.h"
+
 //LCD Display
 TextLCD lcd(D0,D1,D2,D3,D4,D5, TextLCD::LCD20x4);
 
@@ -12,21 +15,26 @@ DigitalIn menuButton(D15, PullUp), action(D14, PullUp), up(D13, PullUp), left(D1
 int main() {
     lcd.cls();
     lcd.locate(0,0);
-    Menu menu(lcd, up, down);
-    menu.displayMenu();
-    while (true) {
-        if (menuButton == false) {
-            menu.displayMenu();
-            thread_sleep_for(500);
-        } else if (action == false) {
-            menu.selectOption();
-            thread_sleep_for(500);
-        } else if (up == false) {
-            menu.navigateMenu(-1);
-            thread_sleep_for(500);
-        } else if (down == false) {
-            menu.navigateMenu(1);
-            thread_sleep_for(500);
-        }
-    }
+
+    ElectronRace game(lcd, up, down);
+    game.startGame();
+
+    
+    // Menu menu(lcd, up, down);
+    // menu.displayMenu();
+    // while (true) {
+    //     if (menuButton == false) {
+    //         menu.displayMenu();
+    //         thread_sleep_for(500);
+    //     } else if (action == false) {
+    //         menu.selectOption();
+    //         thread_sleep_for(500);
+    //     } else if (up == false) {
+    //         menu.navigateMenu(-1);
+    //         thread_sleep_for(500);
+    //     } else if (down == false) {
+    //         menu.navigateMenu(1);
+    //         thread_sleep_for(500);
+    //     }
+    // }
 }
