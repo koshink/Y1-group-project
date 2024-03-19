@@ -3,11 +3,12 @@
 ElectronRace::ElectronRace(TextLCD &lcd, DigitalIn &up, DigitalIn &down) 
     : lcd(lcd), up(up), down(down), playerPos(0), obstaclePos(lcd.columns() -1), isGameOver(false), score(0) {
     
-    generateObstacle();
+    startGame();
 }
 
 
 void ElectronRace::startGame() {
+    generateObstacle();
     while (true) {
         handleInput();
         updateGame();

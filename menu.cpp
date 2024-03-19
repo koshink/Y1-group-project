@@ -21,9 +21,9 @@ void Menu::displayMenu() {
 void Menu::navigateMenu(int direction) {
     selectedOption += direction;
     if (selectedOption < 0) {
-        selectedOption = 1;
-    } else if (selectedOption > 1) {
         selectedOption = 0;
+    } else if (selectedOption > 1) {
+        selectedOption = 1;
     }
     displayMenu();
 }
@@ -37,7 +37,7 @@ void Menu::selectOption() {
     thread_sleep_for(500);
 
     if (selectedOption == 0) {
-        ElectronRace game(lcd, up, down);
-        game.startGame();
+        lcd.cls();
+        ElectronRace *electron = new ElectronRace(lcd, up, down);
     }
 }
