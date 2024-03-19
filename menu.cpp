@@ -8,6 +8,7 @@ Menu::Menu(TextLCD &lcd, DigitalIn &up, DigitalIn &down) : lcd(lcd), up(up), dow
 
 void Menu::displayMenu() {
     lcd.cls();
+    ElectronRace *electron = NULL;
     for (int i = 0; i < 2; i++) {
         lcd.locate(0, i);
         if (i == selectedOption) {
@@ -37,7 +38,7 @@ void Menu::selectOption() {
     thread_sleep_for(500);
 
     if (selectedOption == 0) {
-        lcd.cls();
         ElectronRace *electron = new ElectronRace(lcd, up, down);
-    }
+    }// else if (selectedOption == 1) {
+    // }
 }
