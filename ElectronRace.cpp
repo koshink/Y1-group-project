@@ -7,6 +7,9 @@ ElectronRace::ElectronRace(TextLCD &lcd, DigitalIn &up, DigitalIn &down)
     startGame();
 }
 
+ElectronRace::~ElectronRace() {
+    delete[] this;
+}
 
 void ElectronRace::startGame() {
     while (true) {

@@ -31,5 +31,6 @@ private:
 
 public:
     ElectronRace(TextLCD &lcd, DigitalIn &Up, DigitalIn &Down);
+    ~ElectronRace();
     void startGame();
 };
