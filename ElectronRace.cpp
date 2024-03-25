@@ -8,17 +8,25 @@ ElectronRace::ElectronRace(TextLCD &lcd, DigitalIn &up, DigitalIn &down)
 }
 
 void ElectronRace::startGame() {
+    float startSleepTime = 0.5; // Start with a larger sleep time
+    int minSleepTime = 10; // Set a minimum sleep time
+    double decreaseRate = 0.2; // Decrease at this rate
+
     // Run through the game loop and check if the game is over each time
-    while (true) {
+    do {
         handleInput();
         updateGame();
         renderGame();
         isGameOver = checkGameOver();
-        thread_sleep_for(100);
-        if (isGameOver == true) {
-            break;
-        }
+
+    int sleepTime = startSleepTime * exp(-decreaseRate * score + 3);
+    if (sleepTime < minSleepTime) {
+        sleepTime = minSleepTime;
     }
+
+    thread_sleep_for(sleepTime);
+
+    } while (!isGameOver);
 }
 
 
@@ -55,6 +63,7 @@ bool ElectronRace::checkGameOver() {
             lcd.printf("GAME OVER");
             lcd.locate(0,1);
             lcd.printf("Score: %d", score);
+
             return true;
         } else {
             return false;
