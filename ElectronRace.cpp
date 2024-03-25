@@ -2,27 +2,22 @@
 
 ElectronRace::ElectronRace(TextLCD &lcd, DigitalIn &up, DigitalIn &down) 
     : lcd(lcd), up(up), down(down), playerPos(0), obstaclePos(lcd.columns() -1), isGameOver(false), score(0) {
-    
     generateObstacle();
-    startGame();
-}
-
-ElectronRace::~ElectronRace() {
-    delete[] this;
 }
 
 void ElectronRace::startGame() {
-    while (true) {
+    // Run through the game loop and check if the game is over each time
+    do {
         handleInput();
         updateGame();
         renderGame();
         isGameOver = checkGameOver();
         thread_sleep_for(100);
-        if (isGameOver == true) {
-            break;
+    } while (isGameOver == true); {
+            sleep();
         }
-    }
 }
+
 
 
 void ElectronRace::handleInput() {
