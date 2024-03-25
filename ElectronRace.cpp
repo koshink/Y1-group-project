@@ -1,23 +1,25 @@
 #include "ElectronRace.h"
 
 ElectronRace::ElectronRace(TextLCD &lcd, DigitalIn &up, DigitalIn &down) 
-    : lcd(lcd), up(up), down(down), playerPos(0), obstaclePos(lcd.columns() -1), isGameOver(false), score(0) {
+    : lcd(lcd), up(up), down(down), playerPos(0), obstacleCount(0), obstaclePos(lcd.columns() -1), isGameOver(false), score(0) {
+    
+    int obstacles[1] = {0};
     generateObstacle();
 }
 
 void ElectronRace::startGame() {
     // Run through the game loop and check if the game is over each time
-    do {
+    while (true) {
         handleInput();
         updateGame();
         renderGame();
         isGameOver = checkGameOver();
         thread_sleep_for(100);
-    } while (isGameOver == true); {
-            sleep();
+        if (isGameOver == true) {
+            break;
         }
+    }
 }
-
 
 
 void ElectronRace::handleInput() {
