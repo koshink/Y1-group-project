@@ -12,7 +12,7 @@ ElectronRace::ElectronRace(TextLCD &lcd, DigitalIn &up, DigitalIn &down)
 void ElectronRace::startGame() {
     float startSleepTime = 12.5; // Multiplier to set the starting sleepTime to 250ms
     double decreaseRate = 0.2; // Causes a steep drop at the beginning which evens out near the minimum
-    int minSleepTime = 10; // The smallest interval between inputs (10ms);
+    int minSleepTime = 100; // The smallest interval between inputs (10ms);
     
 
     // Run through the game loop and check if the game is over each time
@@ -48,6 +48,8 @@ void ElectronRace::handleInput() {
 
 
 void ElectronRace::updateGame() {
+    static bool obstacleGenerated = false;
+
     // Iterates over all obstacles in the array
     for (int i = 0; i < obstacleCount; ++i) {
         // Move all obstacles over to the left by one column
@@ -61,11 +63,19 @@ void ElectronRace::updateGame() {
             }
 
             --obstacleCount;
-            generateObstacle();
             ++score;
         }
     }
+
+    if (obstacleCount == 0 || (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length == 8 && !obstacleGenerated)) {
+        generateObstacle();
+        obstacleGenerated = true;  // Set the flag to true after generating an obstacle
+    } else if (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length <= 12) {
+        obstacleGenerated = false;  // Reset the flag when the end of the last obstacle is not in column 12
+    }
 }
+
+
 
 
 bool ElectronRace::checkGameOver() {
@@ -92,7 +102,7 @@ void ElectronRace::generateObstacle() {
     current time as a seed */
     srand(time(0)); 
 
-    int length = rand() % 8 + 1; // Length of each obstacle generated
+    int length = rand() % 4 + 1; // Length of each obstacle generated
     int position = rand() % 2;  // Randomly choose the row of the obstacle
 
     // Creates a new obstacle in the array and adds it to the right of the screen
