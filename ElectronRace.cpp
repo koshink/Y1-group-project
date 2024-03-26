@@ -10,9 +10,9 @@ ElectronRace::ElectronRace(TextLCD &lcd, DigitalIn &up, DigitalIn &down)
 
 
 void ElectronRace::startGame() {
-    float startSleepTime = 12.5; // Multiplier to set the starting sleepTime to 250ms
+    int startSleepTime = 12; // Multiplier to set the starting sleepTime to 250ms
     double decreaseRate = 0.2; // Causes a steep drop at the beginning which evens out near the minimum
-    int minSleepTime = 100; // The smallest interval between inputs (10ms);
+    int minSleepTime = 1; // The smallest interval between inputs (10ms);
     
 
     // Run through the game loop and check if the game is over each time
@@ -25,7 +25,7 @@ void ElectronRace::startGame() {
         /* Equation takes the form of Ae(-bx+1.5)
         It is a negative exponential so that the time between obstacles decreases
         over time before plateauing at a minimum sleep time */
-        int sleepTime = startSleepTime * exp(-decreaseRate * score + 1.5);
+        int sleepTime = startSleepTime * exp(-decreaseRate * score + 3);
         if (sleepTime < minSleepTime) {
             sleepTime = minSleepTime;
         }
@@ -67,7 +67,7 @@ void ElectronRace::updateGame() {
         }
     }
 
-    if (obstacleCount == 0 || (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length == 8 && !obstacleGenerated)) {
+    if (obstacleCount == 0 || (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length == 9 && !obstacleGenerated)) {
         generateObstacle();
         obstacleGenerated = true;  // Set the flag to true after generating an obstacle
     } else if (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length <= 12) {
