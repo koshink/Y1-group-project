@@ -30,11 +30,12 @@ void Menu::navigateMenu(int direction) {
     int optionsSize = sizeof(options) / sizeof(options[0]);
     // Figure out the position of the selected option in the array 
     selectedOption += direction;
+    // Wrap around to the end if it goes before the start
     if (selectedOption < 0) {
-        selectedOption = 0;
-    // stop the selection if it reaches the end of the array
+        selectedOption = optionsSize - 1;
+    // Wrap around to the start if it goes past the end
     } else if (selectedOption >= optionsSize) { 
-        selectedOption = optionsSize - 1; 
+        selectedOption = 0; 
     }
     // Display the updated selection
     displayMenu();
