@@ -48,8 +48,9 @@ void ElectronRace::handleInput() {
 
 
 void ElectronRace::updateGame() {
-    static bool obstacleGenerated = false;
-
+    // Stop an infinite number of obstacles from being generated
+    static bool obstacleGenerated = false; 
+    
     // Iterates over all obstacles in the array
     for (int i = 0; i < obstacleCount; ++i) {
         // Move all obstacles over to the left by one column
@@ -67,9 +68,11 @@ void ElectronRace::updateGame() {
         }
     }
 
+    // Generate a new obstacle if the tail of the previous obstacle is in column 9
     if (obstacleCount == 0 || (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length == 9 && !obstacleGenerated)) {
         generateObstacle();
         obstacleGenerated = true;  // Set the flag to true after generating an obstacle
+    // Ensure the gap between obstacles is ate least 3 so columns 9-12
     } else if (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length <= 12) {
         obstacleGenerated = false;  // Reset the flag when the end of the last obstacle is not in column 12
     }
