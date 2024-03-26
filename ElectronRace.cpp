@@ -1,16 +1,18 @@
 #include "ElectronRace.h"
+#include <ctime>
 
+// Initialise the class by generating an obstacle
 ElectronRace::ElectronRace(TextLCD &lcd, DigitalIn &up, DigitalIn &down) 
     : lcd(lcd), up(up), down(down), playerPos(0), obstacleCount(0), obstaclePos(lcd.columns() -1), isGameOver(false), score(0) {
-    
-    int obstacles[1] = {0};
+
     generateObstacle();
 }
 
 void ElectronRace::startGame() {
-    float startSleepTime = 0.5; // Start with a larger sleep time
-    int minSleepTime = 10; // Set a minimum sleep time
-    double decreaseRate = 0.2; // Decrease at this rate
+    float startSleepTime = 12.45; // Multiplier to set the starting sleepTime to 250ms
+    double decreaseRate = 0.2; // Causes a steep drop at the beginning which evens out near the minimum
+    int minSleepTime = 1/10; // The smallest interval between inputs (1ms);
+    
 
     // Run through the game loop and check if the game is over each time
     do {
@@ -73,9 +75,16 @@ bool ElectronRace::checkGameOver() {
 }
 
 void ElectronRace::generateObstacle() {
+
+    srand(time(0)); // Generate the obstacle with a random seed
+
     int length = 1; 
     int position = rand() % 2;  
 
+    // If the obstacle array is full, remove the first (oldest) obstacle
+    if (obstacleCount >= sizeof(obstacles) / sizeof(obstacles[0])) {
+        obstacleCount = 0;
+    }
     obstacles[obstacleCount++] = {lcd.columns() - 1, position, length};
     return;
 }
