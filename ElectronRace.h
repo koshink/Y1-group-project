@@ -22,7 +22,7 @@ private:
     int playerPos; // The current row that the player is in
     int obstaclePos; // The column the obstacle is in
     int score;
-    Obstacle obstacles[2]; // Array of the obstacles that exist
+    Obstacle obstacles[4]; // Array of the obstacles that exist
     int obstacleCount; // Keeps a count of the amount of obstacles in the game
     bool isGameOver;
 

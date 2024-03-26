@@ -10,9 +10,9 @@ ElectronRace::ElectronRace(TextLCD &lcd, DigitalIn &up, DigitalIn &down)
 
 
 void ElectronRace::startGame() {
-    float startSleepTime = 12.45; // Multiplier to set the starting sleepTime to 250ms
+    float startSleepTime = 12.5; // Multiplier to set the starting sleepTime to 250ms
     double decreaseRate = 0.2; // Causes a steep drop at the beginning which evens out near the minimum
-    int minSleepTime = 1/10; // The smallest interval between inputs (0.1ms);
+    int minSleepTime = 10; // The smallest interval between inputs (10ms);
     
 
     // Run through the game loop and check if the game is over each time
@@ -22,10 +22,10 @@ void ElectronRace::startGame() {
         renderGame();
         isGameOver = checkGameOver();
     
-        /* Equation takes the form of Ae(-bx+3)
+        /* Equation takes the form of Ae(-bx+1.5)
         It is a negative exponential so that the time between obstacles decreases
         over time before plateauing at a minimum sleep time */
-        int sleepTime = startSleepTime * exp(-decreaseRate * score + 3);
+        int sleepTime = startSleepTime * exp(-decreaseRate * score + 1.5);
         if (sleepTime < minSleepTime) {
             sleepTime = minSleepTime;
         }
@@ -69,19 +69,16 @@ void ElectronRace::updateGame() {
 
 
 bool ElectronRace::checkGameOver() {
-    // Iterate through every obstacle
     for (int i = 0; i < obstacleCount; ++i) {
         // Check if the player's position matches the obstacle's position
-        if (obstacles[i].column == 2 && playerPos == obstacles[i].row) {
-            lcd.cls();
-            // Display GAME OVER on the first line of the display
-            lcd.locate(0,0); lcd.printf("GAME OVER");
-            // Display the final score on the second line
-            lcd.locate(0,1); lcd.printf("Score: %d", score);
+        for (int j = 0; j < obstacles[i].length; ++j) {
+            if (obstacles[i].column - j == 2 && playerPos == obstacles[i].row) {
+                lcd.cls();
+                lcd.locate(0,0); lcd.printf("GAME OVER");
+                lcd.locate(0,1); lcd.printf("Score: %d", score);
 
-            return true;
-        } else {
-            return false;
+                return true;
+            }
         }
     }
     return false;
@@ -95,10 +92,10 @@ void ElectronRace::generateObstacle() {
     current time as a seed */
     srand(time(0)); 
 
-    int length = 1; 
+    int length = rand() % 8 + 1; // Length of each obstacle generated
     int position = rand() % 2;  // Randomly choose the row of the obstacle
 
-    // Adds the new obstacle at the right of the screen
+    // Creates a new obstacle in the array and adds it to the right of the screen
     obstacles[obstacleCount++] = {lcd.columns() - 1, position, length};
     return;
 }
@@ -114,9 +111,11 @@ void ElectronRace::renderGame() {
 
     // Draws all of the obstacles at their positions on screen
     for (int i = 0; i < obstacleCount; ++i) {
-        lcd.locate(obstacles[i].column, obstacles[i].row);
         for (int j = 0; j < obstacles[i].length; ++j) {
-            lcd.putc('#');
+            if (obstacles[i].column - j >= 0) {
+                lcd.locate(obstacles[i].column - j, obstacles[i].row);
+                lcd.putc('#');
+            }
         }
     }
     
