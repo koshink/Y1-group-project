@@ -31,7 +31,6 @@ private:
     void handleInput();
     void generateObstacle();
     bool checkGameOver();
-    void resetGame();
   
 
 public:
