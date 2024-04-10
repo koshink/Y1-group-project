@@ -88,7 +88,7 @@ bool ElectronRace::checkGameOver() {
             if (obstacles[i].column - j == 2 && playerPos == obstacles[i].row) {
                 lcd.cls();
                 lcd.locate(0,0); lcd.printf("GAME OVER");
-                lcd.locate(0,1); lcd.printf("Current: %dμA", score);
+                lcd.locate(0,1); lcd.printf("Current: %dnA", score);
 
                 return true;
             }
