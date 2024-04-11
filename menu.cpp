@@ -2,7 +2,7 @@
 #include "ElectronRace.h"
 #include "QuizDuels.h"
 
-Menu::Menu(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &left, DigitalIn &right) : lcd(lcd), up(up), down(down), left(left), right(right), selectedOption(0) {
+Menu::Menu(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &left, DigitalIn &right, DigitalIn &action) : lcd(lcd), up(up), down(down), left(left), right(right), action(action), selectedOption(0) {
 
     // Add the different games as options
     options[0] = "Electron Race";
@@ -59,7 +59,7 @@ void Menu::selectOption() {
         electron->startGame();
     } else if (selectedOption == 1) {
         // Create a new QuizDuels object
-        quiz = new QuizDuels(lcd, up, down, left, right);
+        quiz = new QuizDuels(lcd, up, down, left, right, action);
     }
 
 

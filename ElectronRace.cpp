@@ -1,5 +1,4 @@
 #include "ElectronRace.h"
-#include <ctime>
 
 // Initialise the class by generating an obstacle
 ElectronRace::ElectronRace(TextLCD &lcd, DigitalIn &up, DigitalIn &down) 

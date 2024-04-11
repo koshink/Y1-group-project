@@ -4,6 +4,7 @@
 
 // Temporary import
 #include "ElectronRace.h"
+#include "QuizDuels.h"
 // Remove
 
 // LCD Display
@@ -22,8 +23,11 @@ int main() {
     // ElectronRace game(lcd, up, down);
     // game.startGame();
 
+    // Test the QuizRace class skipping the menu
+    QuizDuels game(lcd, up, down, left, right, action);
+
     // Create the menu object then display it on the LCD
-    Menu menu(lcd, up, down, left, right);
+    Menu menu(lcd, up, down, left, right, action);
     menu.displayMenu();
 
     // Check which button was pressed while on the main menu

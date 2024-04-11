@@ -2,33 +2,51 @@
 
 #include "mbed.h"
 #include "TextLCD.h"
+#include <vector>
 
 struct Player {
     int score;
-    int hasWon;
 };
 
 struct Question {
+    char text[100];
+    char answers[4][100];
     int correctAnswer;
-    int answers[3];
 };
 
 class QuizDuels {
 private:
-    // Buttons that will be used in the class are passed by reference
     TextLCD &lcd;
     DigitalIn &up;
     DigitalIn &down;
     DigitalIn &left;
     DigitalIn &right;
+    DigitalIn &action;
 
-    // Creation of players
     Player player1;
     Player player2;
+    Player* currentPlayer;
 
-    int cursor[2]; // Array with the index being x, y
+    
+    int currentQuestionIndex;
+    bool inputReceived;
+
+    int cursor[2];
     bool isGameOver;
 
+        // Initialize questions here
+    Question questions[2] = {
+        {
+            "What is 2+2?",
+            {"1", "2", "3", "4"},
+            3
+        },
+        {
+            "What is the capital of France?",
+            {"Berlin", "Paris", "London", "Rome"},
+            1
+        }
+    };
 
 
     void renderQuestion();
@@ -39,6 +57,6 @@ private:
     bool checkGameOver();
 
 public:
-    QuizDuels(TextLCD &lcd, DigitalIn &Up, DigitalIn &Down, DigitalIn &Left, DigitalIn &Right);
+    QuizDuels(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &left, DigitalIn &right, DigitalIn &action);
     void startGame();
 };

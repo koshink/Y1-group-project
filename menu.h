@@ -8,12 +8,13 @@ private:
     DigitalIn &down;
     DigitalIn &left;
     DigitalIn &right;
+    DigitalIn &action;
 
     int selectedOption;
     const char *options[2];
 
 public:
-    Menu(TextLCD &lcd, DigitalIn &Up, DigitalIn &Down, DigitalIn &Left, DigitalIn &Right);
+    Menu(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &left, DigitalIn &right, DigitalIn &action);
     
     void displayMenu();
     void navigateMenu(int direction);
