@@ -67,9 +67,15 @@ void ElectronRace::updateGame() {
             ++score;
         }
     }
+    int obstacleGen = 8;
+    if (score < 20 && score > 10) {
+        int obstacleGen = 9;
+    } else {
+        int obstacleGen = 11;
+    }
 
     // Generate a new obstacle if the tail of the previous obstacle is in column 9
-    if (obstacleCount == 0 || (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length == 9 && !obstacleGenerated)) {
+    if (obstacleCount == 0 || (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length == obstacleGen && !obstacleGenerated)) {
         generateObstacle();
         obstacleGenerated = true;  // Set the flag to true after generating an obstacle
     // Ensure the gap between obstacles is ate least 3 so columns 9-12

@@ -1,7 +1,8 @@
 #include "menu.h"
 #include "ElectronRace.h"
+#include "QuizDuels.h"
 
-Menu::Menu(TextLCD &lcd, DigitalIn &up, DigitalIn &down) : lcd(lcd), up(up), down(down), selectedOption(0) {
+Menu::Menu(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &left, DigitalIn &right) : lcd(lcd), up(up), down(down), left(left), right(right), selectedOption(0) {
 
     // Add the different games as options
     options[0] = "Electron Race";
@@ -50,13 +51,16 @@ void Menu::selectOption() {
 
     // Create a blank object of the games so they can relaunched without stack overflow errors
     ElectronRace *electron = nullptr;
+    QuizDuels *quiz = nullptr;
 
     if (selectedOption == 0) {
         // Create a new ElectronRace object and start the game
         electron = new ElectronRace(lcd, up, down);
         electron->startGame();
-    }// else if (selectedOption == 1) {
-    // }
+    } else if (selectedOption == 1) {
+        // Create a new QuizDuels object
+        quiz = new QuizDuels(lcd, up, down, left, right);
+    }
 
 
     // Delete the electronGame when on the main menu so it can be initialised again

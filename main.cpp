@@ -23,7 +23,7 @@ int main() {
     // game.startGame();
 
     // Create the menu object then display it on the LCD
-    Menu menu(lcd, up, down);
+    Menu menu(lcd, up, down, left, right);
     menu.displayMenu();
 
     // Check which button was pressed while on the main menu
