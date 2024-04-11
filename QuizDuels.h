@@ -50,10 +50,12 @@ private:
 
 
     void renderQuestion();
+    void renderAnswer();
     void renderScoreboard();
     void renderPlayerSwitch();
 
     void handleInput();
+    void checkAnswer(int answer);
     bool checkGameOver();
 
 public:

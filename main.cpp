@@ -26,24 +26,24 @@ int main() {
     // Test the QuizRace class skipping the menu
     QuizDuels game(lcd, up, down, left, right, action);
 
-    // Create the menu object then display it on the LCD
-    Menu menu(lcd, up, down, left, right, action);
-    menu.displayMenu();
+    // // Create the menu object then display it on the LCD
+    // Menu menu(lcd, up, down, left, right, action);
+    // menu.displayMenu();
 
-    // Check which button was pressed while on the main menu
-    while (true) {
-        if (menuButton == false) {
-            menu.displayMenu();
-            thread_sleep_for(500);
-        } else if (action == false) {
-            menu.selectOption();
-            thread_sleep_for(500);
-        } else if (up == false) {
-            menu.navigateMenu(-1);
-            thread_sleep_for(500);
-        } else if (down == false) {
-            menu.navigateMenu(1);
-            thread_sleep_for(500);
-        }
-    }
+    // // Check which button was pressed while on the main menu
+    // while (true) {
+    //     if (menuButton == false) {
+    //         menu.displayMenu();
+    //         thread_sleep_for(500);
+    //     } else if (action == false) {
+    //         menu.selectOption();
+    //         thread_sleep_for(500);
+    //     } else if (up == false) {
+    //         menu.navigateMenu(-1);
+    //         thread_sleep_for(500);
+    //     } else if (down == false) {
+    //         menu.navigateMenu(1);
+    //         thread_sleep_for(500);
+    //     }
+    // }
 }
