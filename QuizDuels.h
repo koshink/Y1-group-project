@@ -55,7 +55,6 @@ private:
     void renderPlayerSwitch();
 
     void handleInput();
-    void checkAnswer(int answer);
     bool checkGameOver();
 
 public:

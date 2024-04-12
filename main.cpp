@@ -25,6 +25,7 @@ int main() {
 
     // Test the QuizRace class skipping the menu
     QuizDuels game(lcd, up, down, left, right, action);
+    game.startGame();
 
     // // Create the menu object then display it on the LCD
     // Menu menu(lcd, up, down, left, right, action);

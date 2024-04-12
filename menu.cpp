@@ -60,6 +60,7 @@ void Menu::selectOption() {
     } else if (selectedOption == 1) {
         // Create a new QuizDuels object
         quiz = new QuizDuels(lcd, up, down, left, right, action);
+        quiz->startGame();
     }
 
 
