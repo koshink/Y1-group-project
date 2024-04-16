@@ -16,9 +16,8 @@ void QuizDuels::startGame() {
         renderQuestion();
         thread_sleep_for(1000);
         renderAnswer(); 
-        if (handleInput()) {
-            break;
-        }
+        if (handleInput()) break;
+        
         
         renderScoreboard();
         thread_sleep_for(1000); 
@@ -58,12 +57,9 @@ int QuizDuels::handleInput() {
 }
 
 void QuizDuels::renderQuestion() {
-    lcd.cls();
-    thread_sleep_for(200);
-    lcd.locate(0,0);
+    lcd.cls(); lcd.locate(0,0);
     lcd.printf("%s", questions[currentQuestionIndex].text);
     thread_sleep_for(500);
-
     return;
 }
 
@@ -114,8 +110,7 @@ void QuizDuels::renderScoreboard() {
 void QuizDuels::renderPlayerSwitch() {
     currentPlayer = (currentPlayer == &player1) ? &player2 : &player1;
 
-    lcd.cls();
-    lcd.locate(0,0); 
+    lcd.cls(); lcd.locate(0,0); 
     lcd.printf("Pass to");
 
     lcd.locate(0,1);
@@ -130,11 +125,8 @@ void QuizDuels::displayWinner() {
     int winner = (player1.score > player2.score) ? 1 : 2;
 
     // Display the winner
-    lcd.locate(0, 0);
-    lcd.printf("Player %d", winner);
-    lcd.locate(0, 1);
-    lcd.printf("Wins!");
-
+    lcd.locate(0, 0); lcd.printf("Player %d", winner);
+    lcd.locate(0, 1); lcd.printf("Wins!");
     return;
 }
 

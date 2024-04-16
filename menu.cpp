@@ -17,8 +17,7 @@ void Menu::displayMenu() {
     int topOption = selectedOption < optionsSize - 1 ? selectedOption : optionsSize - 2; 
     // Display the options, putting an indicator if it is selected
     for (int i = topOption; i < topOption + 2 && i < optionsSize; i++) {
-        lcd.locate(0, i - topOption);
-        lcd.printf((i == selectedOption) ? ">%s" : " %s", options[i]);
+        lcd.locate(0, i - topOption); lcd.printf((i == selectedOption) ? ">%s" : " %s", options[i]);
     }
 }
 

@@ -20,8 +20,9 @@ DigitalIn menuButton(D15, PullUp), action(D14, PullUp), up(D13, PullUp), left(D1
 // Main loop
 int main() {
     // Clear screen and reset cursor
-    lcd.cls();
-    lcd.locate(0,0);
+    lcd.cls(); lcd.locate(0,0);
+
+    
     // // Test the ElectronRace class skipping the menu
     // ElectronRace game(lcd, up, down);
     // game.startGame();
