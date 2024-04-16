@@ -82,14 +82,8 @@ void QuizDuels::renderAnswer() {
 void QuizDuels::checkAnswer() {
     int answer = cursor[0] * 2 + cursor[1];
     bool isCorrect = (answer == questions[currentQuestionIndex].correctAnswer);
-    lcd.cls();
-    lcd.locate(0,0);
-    if (isCorrect) {
-        lcd.printf("Correct!");
-        currentPlayer->score++;
-    } else {
-        lcd.printf("Incorrect!");
-    }
+    lcd.cls(); lcd.locate(0,0);
+    isCorrect ? (lcd.printf("Correct!"), currentPlayer->score++) : lcd.printf("Incorrect!");
     thread_sleep_for(500);
     currentQuestionIndex = (currentQuestionIndex + 1) % questionCount;
     return;
@@ -104,21 +98,14 @@ void QuizDuels::renderScoreboard() {
     lcd.locate(10,0); lcd.printf("|");
     lcd.locate(10,1); lcd.printf("|");
 
-    // Calculate the position of the '#' for each player
-    int pos1 = 2 * player1.score;
-    int pos2 = 2 * player2.score;
-
-    // Ensure the position does not exceed the finish line
-    pos1 = pos1 > 10 ? 10 : pos1;
-    pos2 = pos2 > 10 ? 10 : pos2;
+    // Calculates the position of each player and whether they have won
+    int pos1 = (2 * player1.score) > 10 ? 10 : pos1;
+    int pos2 = (2 * player2.score) > 10 ? 10 : pos2;
 
     // Draw the score for player 1
-    lcd.locate(pos1, 0);
-    lcd.printf("#");
-
+    lcd.locate(pos1, 0); lcd.printf("#");
     // Draw the score for player 2
-    lcd.locate(pos2, 1);
-    lcd.printf("#");
+    lcd.locate(pos2, 1); lcd.printf("#");
 
     thread_sleep_for(500);
     return;
