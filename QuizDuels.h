@@ -27,14 +27,15 @@ private:
     Player player2;
     Player* currentPlayer;
 
-    
     int currentQuestionIndex;
+    int questionCount = sizeof(questions) / sizeof(questions[0]);
     bool inputReceived;
 
     int cursor[2];
     bool isGameOver;
 
         // Initialize questions here
+        // Move questions to seperate csv file or json if mbed can handle
     Question questions[2] = {
         {
             "What is 2+2?",
@@ -55,7 +56,9 @@ private:
     void renderPlayerSwitch();
 
     void handleInput();
+    void checkAnswer();
     bool checkGameOver();
+    void displayWinner();
 
 public:
     QuizDuels(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &left, DigitalIn &right, DigitalIn &action);
