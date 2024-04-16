@@ -24,10 +24,8 @@ void ElectronRace::startGame() {
         /* Equation takes the form of Ae(-bx+1.5)
         It is a negative exponential so that the time between obstacles decreases
         over time before plateauing at a minimum sleep time */
-        int sleepTime = startSleepTime * exp(-decreaseRate * score + 3);
-        if (sleepTime < minSleepTime) {
-            sleepTime = minSleepTime;
-        }
+        int sleepTime = (startSleepTime * exp(-decreaseRate * score + 3) < minSleepTime) ? 
+            minSleepTime : startSleepTime * exp(-decreaseRate * score + 3);
 
         thread_sleep_for(sleepTime);
 
@@ -66,12 +64,7 @@ void ElectronRace::updateGame() {
             ++score;
         }
     }
-    int obstacleGen = 8;
-    if (score < 20 && score > 10) {
-        int obstacleGen = 9;
-    } else {
-        int obstacleGen = 11;
-    }
+    int obstacleGen = (score < 20 && score > 10) ? 9 : 11;
 
     // Generate a new obstacle if the tail of the previous obstacle is in column 9
     if (obstacleCount == 0 || (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length == obstacleGen && !obstacleGenerated)) {
@@ -139,15 +132,7 @@ void ElectronRace::renderGame() {
     
     /* Ensures the score is positioned as far right on the screen 
     moving the cursor left by 1 when printing more digits */
-    int scoreLocation;
-    
-    if (score <= 9) {
-        scoreLocation = 15;
-    } else if (score <= 99) {
-        scoreLocation = 14;
-    } else {
-        scoreLocation = 13;
-    }
+    int scoreLocation = (score <= 9) ? 15 : ((score <= 99) ? 14 : 13);
     
     lcd.locate(scoreLocation , 0);
     lcd.printf("%d", score);
