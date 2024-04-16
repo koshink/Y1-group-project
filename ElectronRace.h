@@ -23,6 +23,11 @@ private:
     DigitalIn &down;
     DigitalIn &menu;
 
+
+    Thread inputThread;
+    Mutex mutex;
+    
+
     int playerPos; // The current row that the player is in
     int obstaclePos; // The column the obstacle is in
     int score;

@@ -9,14 +9,16 @@ ElectronRace::ElectronRace(TextLCD &lcd, DigitalIn &up, DigitalIn &down, Digital
 
 
 void ElectronRace::startGame() {
+
+    inputThread.start(callback(this, &ElectronRace::handleInput));
+
     int startSleepTime = 12; // Multiplier to set the starting sleepTime to 250ms
     double decreaseRate = 0.2; // Causes a steep drop at the beginning which evens out near the minimum
     int minSleepTime = 1; // The smallest interval between inputs (10ms);
     
-
     // Run through the game loop and check if the game is over each time
     do {
-        handleInput();
+        // handleInput();
         updateGame();
         renderGame();
         isGameOver = checkGameOver();
@@ -40,8 +42,19 @@ void ElectronRace::startGame() {
 
 
 void ElectronRace::handleInput() {
-    playerPos = (!up && playerPos > 0) ? playerPos - 1 : playerPos;
-    playerPos = (!down && playerPos < 1) ? playerPos + 1 : playerPos;
+    while (true) {
+        mutex.lock();
+        playerPos = (!up && playerPos > 0) ? playerPos - 1 : playerPos;
+        playerPos = (!down && playerPos < 1) ? playerPos + 1 : playerPos;
+        mutex.unlock();
+
+        if(!menu) {
+            inputThread.join();
+            break;
+        }
+        
+        thread_sleep_for(20);
+    }
 }
 
 
@@ -65,32 +78,31 @@ void ElectronRace::updateGame() {
             ++score;
         }
     }
-    int obstacleGen = (score < 20 && score > 10) ? 9 : 11;
+    int obstacleGen = (score < 20 && score > 10) ? 7 : 10;
 
     // Generate a new obstacle if the tail of the previous obstacle is in column 9
     if (obstacleCount == 0 || (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length == obstacleGen && !obstacleGenerated)) {
         generateObstacle();
         obstacleGenerated = true;  // Set the flag to true after generating an obstacle
-    // Ensure the gap between obstacles is ate least 3 so columns 9-12
+    // Ensure the gap between obstacles is ate least 3 so columns 8-12
     } else if (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length <= 12) {
         obstacleGenerated = false;  // Reset the flag when the end of the last obstacle is not in column 12
     }
 }
 
-
-
-
 bool ElectronRace::checkGameOver() {
     for (int i = 0; i < obstacleCount; ++i) {
         // Check if the player's position matches the obstacle's position
         for (int j = 0; j < obstacles[i].length; ++j) {
+            mutex.lock();
             if (obstacles[i].column - j == 2 && playerPos == obstacles[i].row) {
                 lcd.cls();
                 lcd.locate(0,0); lcd.printf("GAME OVER");
                 lcd.locate(0,1); lcd.printf("Current: %dnA", score);
-
+                thread_sleep_for(1000);
                 return true;
             }
+            mutex.unlock();
         }
     }
     return false;
@@ -118,8 +130,10 @@ void ElectronRace::renderGame() {
     lcd.cls();
 
     // Draws the player at the position specified
+    mutex.lock();
     lcd.locate(2, playerPos);
     lcd.putc('*');
+    mutex.unlock();
 
     // Draws all of the obstacles at their positions on screen
     for (int i = 0; i < obstacleCount; ++i) {

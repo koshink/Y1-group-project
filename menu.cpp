@@ -30,6 +30,7 @@ void Menu::navigateMenu(int direction) {
     selectedOption = (selectedOption < 0) ? optionsSize - 1 : (selectedOption >= optionsSize) ? 0 : selectedOption;
     // Display the updated selection
     displayMenu();
+    thread_sleep_for(200);
 }
 
 void Menu::selectOption() {

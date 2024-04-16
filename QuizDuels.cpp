@@ -1,7 +1,7 @@
 #include "QuizDuels.h"
 
 QuizDuels::QuizDuels(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &left, DigitalIn &right, DigitalIn &action, DigitalIn &menu) 
-    : lcd(lcd), up(up), down(down), left(left), right(right), action(action), menu(menu), player1{4}, player2{0}, currentPlayer(&player1), currentQuestionIndex(0), isGameOver(false), cursor{0,0} {
+    : lcd(lcd), up(up), down(down), left(left), right(right), action(action), menu(menu), player1{0}, player2{0}, currentPlayer(&player1), currentQuestionIndex(0), isGameOver(false), cursor{0,0} {
         
 }
 
@@ -94,14 +94,21 @@ void QuizDuels::renderScoreboard() {
     lcd.locate(10,0); lcd.printf("|");
     lcd.locate(10,1); lcd.printf("|");
 
-    // Calculates the position of each player and whether they have won
-    int pos1 = (2 * player1.score) > 10 ? 10 : pos1;
-    int pos2 = (2 * player2.score) > 10 ? 10 : pos2;
+    // Calculate the position of the '#' for each player
+    int pos1 = 2 * player1.score;
+    int pos2 = 2 * player2.score;
+
+    // Ensure the position does not exceed the finish line
+    pos1 = pos1 > 10 ? 10 : pos1;
+    pos2 = pos2 > 10 ? 10 : pos2;
 
     // Draw the score for player 1
-    lcd.locate(pos1, 0); lcd.printf("#");
+    lcd.locate(pos1, 0);
+    lcd.printf("#");
+
     // Draw the score for player 2
-    lcd.locate(pos2, 1); lcd.printf("#");
+    lcd.locate(pos2, 1);
+    lcd.printf("#");
 
     thread_sleep_for(500);
     return;
