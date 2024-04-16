@@ -1,8 +1,8 @@
 #include "ElectronRace.h"
 
 // Initialise the class by generating an obstacle
-ElectronRace::ElectronRace(TextLCD &lcd, DigitalIn &up, DigitalIn &down) 
-    : lcd(lcd), up(up), down(down), playerPos(0), obstacleCount(0), obstaclePos(lcd.columns() -1), isGameOver(false), score(0) {
+ElectronRace::ElectronRace(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &menu) 
+    : lcd(lcd), up(up), down(down), menu(menu), playerPos(0), obstacleCount(0), obstaclePos(lcd.columns() -1), isGameOver(false), score(0) {
 
     generateObstacle();
 }
@@ -28,6 +28,8 @@ void ElectronRace::startGame() {
             minSleepTime : startSleepTime * exp(-decreaseRate * score + 3);
 
         thread_sleep_for(sleepTime);
+
+        if(!menu) { break; }
 
     } while (!isGameOver);
 }

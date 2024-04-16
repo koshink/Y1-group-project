@@ -15,13 +15,19 @@ struct Question {
 };
 
 class QuizDuels {
+public:
+    QuizDuels(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &left, DigitalIn &right, DigitalIn &action, DigitalIn &menu);
+    void startGame();
+    
 private:
+    // Member variables
     TextLCD &lcd;
     DigitalIn &up;
     DigitalIn &down;
     DigitalIn &left;
     DigitalIn &right;
     DigitalIn &action;
+    DigitalIn &menu;
 
     Player player1;
     Player player2;
@@ -49,19 +55,18 @@ private:
     };
 
 
+ // Game logic methods
+    int handleInput();
+    void checkAnswer();
+    bool checkGameOver();
+    void displayWinner();
+
+    // Rendering methods
     void renderQuestion();
     void renderAnswer();
     void renderScoreboard();
     void renderPlayerSwitch();
 
+    // Utility methods
     void updateCursor(int &cursorPos, DigitalIn &button, int limit);
-
-    void handleInput();
-    void checkAnswer();
-    bool checkGameOver();
-    void displayWinner();
-
-public:
-    QuizDuels(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &left, DigitalIn &right, DigitalIn &action);
-    void startGame();
 };

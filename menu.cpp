@@ -2,7 +2,7 @@
 #include "ElectronRace.h"
 #include "QuizDuels.h"
 
-Menu::Menu(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &left, DigitalIn &right, DigitalIn &action) : lcd(lcd), up(up), down(down), left(left), right(right), action(action), selectedOption(0) {
+Menu::Menu(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &left, DigitalIn &right, DigitalIn &action, DigitalIn &menu) : lcd(lcd), up(up), down(down), left(left), right(right), action(action), menu(menu), selectedOption(0) {
 
     // Add the different games as options
     options[0] = "Electron Race";
@@ -18,11 +18,7 @@ void Menu::displayMenu() {
     // Display the options, putting an indicator if it is selected
     for (int i = topOption; i < topOption + 2 && i < optionsSize; i++) {
         lcd.locate(0, i - topOption);
-        if (i == selectedOption) {
-            lcd.printf(">%s", options[i]);
-        } else {
-            lcd.printf(" %s", options[i]);
-        }
+        lcd.printf((i == selectedOption) ? ">%s" : " %s", options[i]);
     }
 }
 
@@ -32,12 +28,7 @@ void Menu::navigateMenu(int direction) {
     // Figure out the position of the selected option in the array 
     selectedOption += direction;
     // Wrap around to the end if it goes before the start
-    if (selectedOption < 0) {
-        selectedOption = optionsSize - 1;
-    // Wrap around to the start if it goes past the end
-    } else if (selectedOption >= optionsSize) { 
-        selectedOption = 0; 
-    }
+    selectedOption = (selectedOption < 0) ? optionsSize - 1 : (selectedOption >= optionsSize) ? 0 : selectedOption;
     // Display the updated selection
     displayMenu();
 }
@@ -53,20 +44,20 @@ void Menu::selectOption() {
     ElectronRace *electron = nullptr;
     QuizDuels *quiz = nullptr;
 
-    if (selectedOption == 0) {
-        // Create a new ElectronRace object and start the game
-        electron = new ElectronRace(lcd, up, down);
-        electron->startGame();
-    } else if (selectedOption == 1) {
-        // Create a new QuizDuels object
-        quiz = new QuizDuels(lcd, up, down, left, right, action);
-        quiz->startGame();
-    }
+    // Depending on the selected option, create a new game object and start the game
+    (selectedOption == 0) ? (electron = new ElectronRace(lcd, up, down, menu), electron->startGame()) : 
+                            (quiz = new QuizDuels(lcd, up, down, left, right, action, menu), quiz->startGame());
 
 
     // Delete the electronGame when on the main menu so it can be initialised again
-    if (electron != nullptr) {
+    if (electron) {
         delete electron;
         electron = nullptr;
+    }
+
+    // Delete the quiz game when on the main menu so it can be initialised again
+    if (quiz) {
+        delete quiz;
+        quiz = nullptr;
     }
 }

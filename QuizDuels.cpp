@@ -1,7 +1,7 @@
 #include "QuizDuels.h"
 
-QuizDuels::QuizDuels(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &left, DigitalIn &right, DigitalIn &action) 
-    : lcd(lcd), up(up), down(down), left(left), right(right), action(action), player1{0}, player2{0}, currentPlayer(&player1), currentQuestionIndex(0), isGameOver(false), cursor{0,0} {
+QuizDuels::QuizDuels(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &left, DigitalIn &right, DigitalIn &action, DigitalIn &menu) 
+    : lcd(lcd), up(up), down(down), left(left), right(right), action(action), menu(menu), player1{4}, player2{0}, currentPlayer(&player1), currentQuestionIndex(0), isGameOver(false), cursor{0,0} {
         
 }
 
@@ -16,7 +16,9 @@ void QuizDuels::startGame() {
         renderQuestion();
         thread_sleep_for(1000);
         renderAnswer(); 
-        handleInput();
+        if (handleInput()) {
+            break;
+        }
         
         renderScoreboard();
         thread_sleep_for(1000); 
@@ -29,6 +31,7 @@ void QuizDuels::startGame() {
             currentQuestionIndex = 0;
             isGameOver = false;
         }
+        if(!menu) { break; }
     } 
     displayWinner();
 }
@@ -40,19 +43,18 @@ void QuizDuels::updateCursor(int &cursorPos, DigitalIn &button, int limit) {
     }
 }
 
-void QuizDuels::handleInput() {
+int QuizDuels::handleInput() {
     while(true) {
         updateCursor(cursor[0], up, 0);
         updateCursor(cursor[0], down, 1);
         updateCursor(cursor[1], left, 0);
         updateCursor(cursor[1], right, 1);
         
-        if (!action) {
-            thread_sleep_for(200);
-            break;
-        }
+        if (!action) { break; }
+        if (!menu) { return true; }
     }
     checkAnswer();
+    return false;
 }
 
 void QuizDuels::renderQuestion() {
@@ -145,6 +147,8 @@ void QuizDuels::displayWinner() {
     lcd.printf("Player %d", winner);
     lcd.locate(0, 1);
     lcd.printf("Wins!");
+
+    return;
 }
 
 bool QuizDuels::checkGameOver() {

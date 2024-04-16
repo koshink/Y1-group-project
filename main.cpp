@@ -22,7 +22,6 @@ int main() {
     // Clear screen and reset cursor
     lcd.cls();
     lcd.locate(0,0);
-
     // // Test the ElectronRace class skipping the menu
     // ElectronRace game(lcd, up, down);
     // game.startGame();
@@ -32,23 +31,18 @@ int main() {
     // game.startGame();
 
     // Create the menu object then display it on the LCD
-    Menu menu(lcd, up, down, left, right, action);
+    Menu menu(lcd, up, down, left, right, action, menuButton);
     menu.displayMenu();
 
     // Check which button was pressed while on the main menu
     while (true) {
-        if (menuButton == false) {
-            menu.displayMenu();
-            thread_sleep_for(500);
-        } else if (action == false) {
-            menu.selectOption();
-            thread_sleep_for(500);
-        } else if (up == false) {
-            menu.navigateMenu(-1);
-            thread_sleep_for(500);
-        } else if (down == false) {
-            menu.navigateMenu(1);
-            thread_sleep_for(500);
-        }
+        // If multiple buttons are pressed, do nothing and refresh the menu
+        int buttonPressCount = !menuButton + !action + !up + !down + !left + !right;
+        (buttonPressCount > 1) ? menu.displayMenu() : void();
+            
+        (menuButton == false) ? menu.displayMenu() : 
+        (action == false) ? menu.selectOption() : 
+        (up == false) ? menu.navigateMenu(-1) : 
+        (down == false) ? menu.navigateMenu(1) : void();
     }
 }

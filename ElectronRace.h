@@ -12,12 +12,16 @@ struct Obstacle {
 
 
 class ElectronRace {
+public:
+    ElectronRace(TextLCD &lcd, DigitalIn &Up, DigitalIn &Down, DigitalIn &menu);
+    void startGame();
+
 private:
     // Buttons that will be used in the class are passed by reference
     TextLCD &lcd;
     DigitalIn &up;
     DigitalIn &down;
-
+    DigitalIn &menu;
 
     int playerPos; // The current row that the player is in
     int obstaclePos; // The column the obstacle is in
@@ -26,14 +30,12 @@ private:
     int obstacleCount; // Keeps a count of the amount of obstacles in the game
     bool isGameOver;
 
-    void updateGame();
-    void renderGame();
+    // Game logic methods
     void handleInput();
+    void updateGame();
     void generateObstacle();
     bool checkGameOver();
-  
 
-public:
-    ElectronRace(TextLCD &lcd, DigitalIn &Up, DigitalIn &Down);
-    void startGame();
+    // Rendering method
+    void renderGame();
 };
