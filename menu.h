@@ -1,6 +1,4 @@
 #include "TextLCD.h"
-#include "ElectronRace.h"
-#include "QuizDuels.h"
 
 class Menu {
 public:
@@ -20,9 +18,6 @@ private:
     DigitalIn &right;
     DigitalIn &action;
     DigitalIn &menu;
-
-    ElectronRace *electron = nullptr;
-    QuizDuels *quiz = nullptr;
 
     // Menu options
     const char *options[2];

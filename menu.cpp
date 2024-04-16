@@ -39,6 +39,10 @@ void Menu::selectOption() {
     lcd.locate(0, 1); lcd.printf("%s", options[selectedOption]);
     thread_sleep_for(500);
 
+    // Create a blank object of the games so they can relaunched without stack overflow errors
+    ElectronRace *electron = nullptr;
+    QuizDuels *quiz = nullptr;
+
     // Depending on the selected option, create a new game object and start the game
     if (selectedOption == 0) {
         electron = new ElectronRace(lcd, up, down, menu);
