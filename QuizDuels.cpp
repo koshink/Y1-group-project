@@ -1,7 +1,8 @@
 #include "QuizDuels.h"
 
 QuizDuels::QuizDuels(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &left, DigitalIn &right, DigitalIn &action) 
-    : lcd(lcd), up(up), down(down), left(left), right(right), action(action), player1{4}, player2{0}, currentPlayer(&player1), currentQuestionIndex(0), isGameOver(false), inputReceived(false) {
+    : lcd(lcd), up(up), down(down), left(left), right(right), action(action), player1{0}, player2{0}, currentPlayer(&player1), currentQuestionIndex(0), isGameOver(false), cursor{0,0} {
+        
 }
 
 void QuizDuels::startGame() {
@@ -32,13 +33,19 @@ void QuizDuels::startGame() {
     displayWinner();
 }
 
+void QuizDuels::updateCursor(int &cursorPos, DigitalIn &button, int limit) {
+    if (!button && cursorPos != limit) {
+        cursorPos += (limit > cursorPos) ? 1 : -1;
+        renderAnswer();
+    }
+}
+
 void QuizDuels::handleInput() {
     while(true) {
-        cursor[0] = (!up && cursor[0] > 0) ? cursor[0] - 1 : cursor[0];
-        cursor[0] = (!down && cursor[0] < 1) ? cursor[0] + 1 : cursor[0];
-        
-        cursor[1] = (!left && cursor[1] > 0) ? cursor[1] - 1 : cursor[1];
-        cursor[1] = (!right && cursor[1] < 1) ? cursor[1] + 1 : cursor[1];
+        updateCursor(cursor[0], up, 0);
+        updateCursor(cursor[0], down, 1);
+        updateCursor(cursor[1], left, 0);
+        updateCursor(cursor[1], right, 1);
         
         if (!action) {
             thread_sleep_for(200);

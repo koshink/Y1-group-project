@@ -35,7 +35,6 @@ private:
     bool isGameOver;
 
         // Initialize questions here
-        // Move questions to seperate csv file or json if mbed can handle
     Question questions[2] = {
         {
             "What is 2+2?",
@@ -54,6 +53,8 @@ private:
     void renderAnswer();
     void renderScoreboard();
     void renderPlayerSwitch();
+
+    void updateCursor(int &cursorPos, DigitalIn &button, int limit);
 
     void handleInput();
     void checkAnswer();
