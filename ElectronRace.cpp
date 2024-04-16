@@ -24,25 +24,24 @@ void ElectronRace::startGame() {
         /* Equation takes the form of Ae(-bx+1.5)
         It is a negative exponential so that the time between obstacles decreases
         over time before plateauing at a minimum sleep time */
-        int sleepTime = (startSleepTime * exp(-decreaseRate * score + 3) < minSleepTime) ? 
-            minSleepTime : startSleepTime * exp(-decreaseRate * score + 3);
+        int sleepTime;
+        if (startSleepTime * exp(-decreaseRate * score + 3) < minSleepTime) {
+            sleepTime = minSleepTime;
+        } else {
+            sleepTime = startSleepTime * exp(-decreaseRate * score + 3);
+        }
 
         thread_sleep_for(sleepTime);
 
-        if(!menu) { break; }
+        if(!menu) break;
 
     } while (!isGameOver);
 }
 
 
 void ElectronRace::handleInput() {
-    if (!up && playerPos > 0) {
-        --playerPos;
-    }
-
-    if (!down && playerPos < 1) {
-        ++playerPos;
-    }
+    playerPos = (!up && playerPos > 0) ? playerPos - 1 : playerPos;
+    playerPos = (!down && playerPos < 1) ? playerPos + 1 : playerPos;
 }
 
 

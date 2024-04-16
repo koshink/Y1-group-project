@@ -31,7 +31,7 @@ void QuizDuels::startGame() {
             currentQuestionIndex = 0;
             isGameOver = false;
         }
-        if(!menu) { break; }
+        if(!menu) break;
     } 
     displayWinner();
 }
@@ -50,8 +50,8 @@ int QuizDuels::handleInput() {
         updateCursor(cursor[1], left, 0);
         updateCursor(cursor[1], right, 1);
         
-        if (!action) { break; }
-        if (!menu) { return true; }
+        if (!action) break; 
+        if (!menu) return true; 
     }
     checkAnswer();
     return false;

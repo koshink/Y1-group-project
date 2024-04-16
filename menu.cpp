@@ -45,9 +45,13 @@ void Menu::selectOption() {
     QuizDuels *quiz = nullptr;
 
     // Depending on the selected option, create a new game object and start the game
-    (selectedOption == 0) ? (electron = new ElectronRace(lcd, up, down, menu), electron->startGame()) : 
-                            (quiz = new QuizDuels(lcd, up, down, left, right, action, menu), quiz->startGame());
-
+    if (selectedOption == 0) {
+        electron = new ElectronRace(lcd, up, down, menu);
+        electron->startGame();
+    } else {
+        quiz = new QuizDuels(lcd, up, down, left, right, action, menu);
+        quiz->startGame();
+    }
 
     // Delete the electronGame when on the main menu so it can be initialised again
     if (electron) {
