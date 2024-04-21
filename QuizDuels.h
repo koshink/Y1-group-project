@@ -4,10 +4,12 @@
 #include "TextLCD.h"
 #include <vector>
 
+// Create a struct for each player
 struct Player {
     int score;
 };
 
+// Create a struct to handle each question along with it's answers
 struct Question {
     char text[100];
     char answers[4][100];
@@ -20,7 +22,7 @@ public:
     void startGame();
     
 private:
-    // Member variables
+    // Get the LCD and the buttons by reference
     TextLCD &lcd;
     DigitalIn &up;
     DigitalIn &down;
@@ -29,33 +31,27 @@ private:
     DigitalIn &action;
     DigitalIn &menu;
 
-    Player player1;
-    Player player2;
-    Player* currentPlayer;
-
-    int currentQuestionIndex;
-    int questionCount = sizeof(questions) / sizeof(questions[0]);
-    bool inputReceived;
-
+    // The cursor has two coordinates for navigation (x,y)
     int cursor[2];
     bool isGameOver;
 
-        // Initialize questions here
+    // Create each player
+    Player player1;
+    Player player2;
+    Player *currentPlayer;
+
+    // Create the questions 
+    int currentQuestionIndex;
+    int questionCount = sizeof(questions) / sizeof(questions[0]);
+
+    // Question array
     Question questions[2] = {
-        {
-            "What is 2+2?",
-            {"1", "2", "3", "4"},
-            3
-        },
-        {
-            "What is the capital of France?",
-            {"Berlin", "Paris", "London", "Rome"},
-            1
-        }
+        { "What is 2+2?", {"1", "2", "3", "4"}, 3},
+        { "What is the capital of France?", {"Berlin", "Paris", "London", "Rome"}, 1}
     };
 
 
- // Game logic methods
+    // Game logic methods
     int handleInput();
     void checkAnswer();
     bool checkGameOver();

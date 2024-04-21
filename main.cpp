@@ -2,34 +2,16 @@
 #include "TextLCD.h"
 #include "menu.h"
 
-
-
-// Temporary import
-#include "ElectronRace.h"
-#include "QuizDuels.h"
-// Remove
-
-
-
 // LCD Display
 TextLCD lcd(D0,D1,D2,D3,D4,D5, TextLCD::LCD20x4);
 
 // Buttons
-DigitalIn menuButton(D15, PullUp), action(D14, PullUp), up(D13, PullUp), left(D12, PullUp), down(D11, PullUp), right(D10, PullUp);
+DigitalIn menuButton(D13, PullUp), action(D12, PullUp), up(D11, PullUp), left(D10, PullUp), down(D9, PullUp), right(D8, PullUp);
 
 // Main loop
 int main() {
     // Clear screen and reset cursor
     lcd.cls(); lcd.locate(0,0);
-
-    
-    // // Test the ElectronRace class skipping the menu
-    // ElectronRace game(lcd, up, down);
-    // game.startGame();
-
-    // // Test the QuizRace class skipping the menu
-    // QuizDuels game(lcd, up, down, left, right, action);
-    // game.startGame();
 
     // Create the menu object then display it on the LCD
     Menu menu(lcd, up, down, left, right, action, menuButton);

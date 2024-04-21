@@ -11,18 +11,25 @@ void QuizDuels::startGame() {
     current time as a seed */
     srand(time(0));
 
+    // Main game loop
     while(!checkGameOver()) {
         currentQuestionIndex = rand() % questionCount;  // Choose a random question
+        
+        // Show question screen
         renderQuestion();
         thread_sleep_for(1000);
+        // Show answer screen and wait for an input
         renderAnswer(); 
         if (handleInput()) break;
         
-        
+        // When input pressed show the current scoreboard
         renderScoreboard();
         thread_sleep_for(1000); 
+
+        // Check gameover
         isGameOver = checkGameOver();
         if (!isGameOver) {
+            // Render the switch player screen
             renderPlayerSwitch();
             thread_sleep_for(2000); 
         } else {
@@ -30,12 +37,13 @@ void QuizDuels::startGame() {
             currentQuestionIndex = 0;
             isGameOver = false;
         }
-        if(!menu) break;
     } 
+    // Render the winner screen
     displayWinner();
 }
 
 void QuizDuels::updateCursor(int &cursorPos, DigitalIn &button, int limit) {
+    // Move the cursor then update the answer screen
     if (!button && cursorPos != limit) {
         cursorPos += (limit > cursorPos) ? 1 : -1;
         renderAnswer();
@@ -44,19 +52,24 @@ void QuizDuels::updateCursor(int &cursorPos, DigitalIn &button, int limit) {
 
 int QuizDuels::handleInput() {
     while(true) {
+        // Move the cursor depending on the button pressed
         updateCursor(cursor[0], up, 0);
         updateCursor(cursor[0], down, 1);
         updateCursor(cursor[1], left, 0);
         updateCursor(cursor[1], right, 1);
         
+        // If the action button is pressed move on
         if (!action) break; 
+        // If the menu button is pressed show the menu
         if (!menu) return true; 
     }
+    // Check if the selected answer is correct
     checkAnswer();
     return false;
 }
 
 void QuizDuels::renderQuestion() {
+    // Reset the lcd then display the question
     lcd.cls(); lcd.locate(0,0);
     lcd.printf("%s", questions[currentQuestionIndex].text);
     thread_sleep_for(500);
@@ -66,22 +79,25 @@ void QuizDuels::renderQuestion() {
 void QuizDuels::renderAnswer() {
     lcd.cls();
     
+    // Print each of the answers on screen at different coordinates
     for (int i = 0; i < 4; i++) {
         lcd.locate((i % 2) * 8 + 1, i / 2);
         lcd.printf("%s", questions[currentQuestionIndex].answers[i]);
     }
 
+    // Rerender the selected question with the cursor
     lcd.locate((cursor[1] % 2) * 8, cursor[0]);
     lcd.printf(">%s", questions[currentQuestionIndex].answers[cursor[0] * 2 + cursor[1]]);
 }
 
 void QuizDuels::checkAnswer() {
+    // Check if the answer matches the 0 indexed value
     int answer = cursor[0] * 2 + cursor[1];
     bool isCorrect = (answer == questions[currentQuestionIndex].correctAnswer);
+    // Reset and display result
     lcd.cls(); lcd.locate(0,0);
     isCorrect ? (lcd.printf("Correct!"), currentPlayer->score++) : lcd.printf("Incorrect!");
     thread_sleep_for(500);
-    currentQuestionIndex = (currentQuestionIndex + 1) % questionCount;
     return;
 }
 
@@ -115,6 +131,7 @@ void QuizDuels::renderScoreboard() {
 }
 
 void QuizDuels::renderPlayerSwitch() {
+    // Switch the current player
     currentPlayer = (currentPlayer == &player1) ? &player2 : &player1;
 
     lcd.cls(); lcd.locate(0,0); 
@@ -138,5 +155,6 @@ void QuizDuels::displayWinner() {
 }
 
 bool QuizDuels::checkGameOver() {
+    // Check if either player has gotten 5 questions right
     return player1.score >= 5 || player2.score >= 5;
 }

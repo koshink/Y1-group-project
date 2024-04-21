@@ -23,7 +23,7 @@ private:
     DigitalIn &down;
     DigitalIn &menu;
 
-
+    // Start a thread so inputs are not tied to gamespeed
     Thread inputThread;
     Mutex mutex;
     

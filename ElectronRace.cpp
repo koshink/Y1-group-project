@@ -23,7 +23,7 @@ void ElectronRace::startGame() {
         renderGame();
         isGameOver = checkGameOver();
     
-        /* Equation takes the form of Ae(-bx+1.5)
+        /* Equation takes the form of Ae(-bx+3)
         It is a negative exponential so that the time between obstacles decreases
         over time before plateauing at a minimum sleep time */
         int sleepTime;
@@ -35,19 +35,19 @@ void ElectronRace::startGame() {
 
         thread_sleep_for(sleepTime);
 
-        if(!menu) break;
-
     } while (!isGameOver);
 }
 
 
 void ElectronRace::handleInput() {
     while (true) {
+        // Lock the player's current position before moving them
         mutex.lock();
         playerPos = (!up && playerPos > 0) ? playerPos - 1 : playerPos;
         playerPos = (!down && playerPos < 1) ? playerPos + 1 : playerPos;
         mutex.unlock();
 
+        // When menu button pressed close the input thread and return to menu
         if(!menu) {
             inputThread.join();
             break;
@@ -94,6 +94,7 @@ bool ElectronRace::checkGameOver() {
     for (int i = 0; i < obstacleCount; ++i) {
         // Check if the player's position matches the obstacle's position
         for (int j = 0; j < obstacles[i].length; ++j) {
+            // Lock the player position when checking if game is over
             mutex.lock();
             if (obstacles[i].column - j == 2 && playerPos == obstacles[i].row) {
                 lcd.cls();
