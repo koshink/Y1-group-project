@@ -11,7 +11,7 @@ DigitalIn menuButton(D13, PullUp), action(D12, PullUp), up(D11, PullUp), left(D1
 // Main loop
 int main() {
     // Clear screen and reset cursor
-    lcd.cls(); lcd.locate(0,0);
+    lcd.cls();
 
     // Create the menu object then display it on the LCD
     Menu menu(lcd, up, down, left, right, action, menuButton);

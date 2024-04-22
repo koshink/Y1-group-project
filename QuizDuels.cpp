@@ -70,7 +70,7 @@ int QuizDuels::handleInput() {
 
 void QuizDuels::renderQuestion() {
     // Reset the lcd then display the question
-    lcd.cls(); lcd.locate(0,0);
+    lcd.cls();
     lcd.printf("%s", questions[currentQuestionIndex].text);
     thread_sleep_for(500);
     return;
@@ -95,7 +95,7 @@ void QuizDuels::checkAnswer() {
     int answer = cursor[0] * 2 + cursor[1];
     bool isCorrect = (answer == questions[currentQuestionIndex].correctAnswer);
     // Reset and display result
-    lcd.cls(); lcd.locate(0,0);
+    lcd.cls();
     isCorrect ? (lcd.printf("Correct!"), currentPlayer->score++) : lcd.printf("Incorrect!");
     thread_sleep_for(500);
     return;
@@ -134,7 +134,7 @@ void QuizDuels::renderPlayerSwitch() {
     // Switch the current player
     currentPlayer = (currentPlayer == &player1) ? &player2 : &player1;
 
-    lcd.cls(); lcd.locate(0,0); 
+    lcd.cls();
     lcd.printf("Pass to");
 
     lcd.locate(0,1);
