@@ -133,7 +133,7 @@ void ElectronRace::renderGame() {
     // Draws the player at the position specified
     mutex.lock();
     lcd.locate(2, playerPos);
-    lcd.putc('*');
+    lcd.printf("*");
     mutex.unlock();
 
     // Draws all of the obstacles at their positions on screen
@@ -141,7 +141,7 @@ void ElectronRace::renderGame() {
         for (int j = 0; j < obstacles[i].length; ++j) {
             if (obstacles[i].column - j >= 0) {
                 lcd.locate(obstacles[i].column - j, obstacles[i].row);
-                lcd.putc('#');
+                lcd.printf("#");
             }
         }
     }
