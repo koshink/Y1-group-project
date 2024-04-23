@@ -34,6 +34,7 @@ private:
     // The cursor has two coordinates for navigation (x,y)
     int cursor[2];
     bool isGameOver;
+    bool correctAnswer;
 
     // Create each player
     Player player1;
@@ -60,7 +61,7 @@ private:
     // Rendering methods
     void renderQuestion();
     void renderAnswer();
-    void renderScoreboard();
+    void renderScoreboard(int player1Score, int player2Score);
     void renderPlayerSwitch();
 
     // Utility methods

@@ -23,7 +23,22 @@ void QuizDuels::startGame() {
         if (handleInput()) break;
         
         // When input pressed show the current scoreboard
-        renderScoreboard();
+        if (correctAnswer == true) {
+
+            if (currentPlayer == &player1) {
+                renderScoreboard(2*player1.score - 2, 2*player2.score);
+                thread_sleep_for(60);
+                renderScoreboard(2*player1.score - 1, 2*player2.score);
+                thread_sleep_for(60);
+            } else if (currentPlayer == &player2) {
+                renderScoreboard(2*player1.score, 2*player2.score - 2);
+                thread_sleep_for(60);
+                renderScoreboard(2*player1.score, 2*player2.score - 1);
+                thread_sleep_for(60);
+            }
+
+        }
+        renderScoreboard(2*player1.score, 2*player2.score);
         thread_sleep_for(1000); 
 
         // Check gameover
@@ -91,46 +106,50 @@ void QuizDuels::renderAnswer() {
 }
 
 void QuizDuels::checkAnswer() {
+    correctAnswer = false;
     // Check if the answer matches the 0 indexed value
     int answer = cursor[0] * 2 + cursor[1];
     bool isCorrect = (answer == questions[currentQuestionIndex].correctAnswer);
     // Reset and display result
     lcd.cls();
-    isCorrect ? (lcd.printf("Correct!"), currentPlayer->score++) : lcd.printf("Incorrect!");
+    isCorrect ? (lcd.printf("Correct!"), correctAnswer = true, currentPlayer->score++) : lcd.printf("Incorrect!");
     thread_sleep_for(500);
     return;
 }
 
 
-void QuizDuels::renderScoreboard() {
-    lcd.cls();
-    thread_sleep_for(500);
+// Render previous scoreboard
+// Render previous scoreboard with player correct guess moved one over
+// Render new scoreboard
 
-    // Draw finish line
-    lcd.locate(10,0); lcd.putc(5);
-    lcd.locate(10,1); lcd.putc(5);
+void QuizDuels::renderScoreboard(int player1Score, int player2Score) {
+        lcd.cls();
+        thread_sleep_for(500);
 
-    // Calculate the position of the '#' for each player
-    int pos1 = 2 * player1.score;
-    int pos2 = 2 * player2.score;
+        // Draw finish line
+        lcd.locate(10,0); lcd.putc(5);
+        lcd.locate(10,1); lcd.putc(5);
 
-    // Ensure the position does not exceed the finish line
-    pos1 = pos1 > 10 ? 10 : pos1;
-    pos2 = pos2 > 10 ? 10 : pos2;
+        // Calculate the position of the '#' for each player
+        int pos1 = player1Score;
+        int pos2 = player2Score;
 
-    // Draw the car for player 1
-    lcd.locate(pos1, 0); lcd.putc(3);
-    lcd.locate(pos1 + 1, 0); lcd.putc(4);
+        // Ensure the position does not exceed the finish line
+        pos1 = pos1 > 10 ? 10 : pos1;
+        pos2 = pos2 > 10 ? 10 : pos2;
 
-    // Draw the score for player 2
-    lcd.locate(pos2, 1); lcd.putc(3);
-    lcd.locate(pos2 + 1, 1); lcd.putc(4);
+        // Draw the car for player 1
+        lcd.locate(pos1, 0); lcd.putc(3);
+        lcd.locate(pos1 + 1, 0); lcd.putc(4);
 
-    // Current Player indicator
-    lcd.locate(15, (currentPlayer == &player1) ? 0 : 1); lcd.putc('<');
-    
+        // Draw the score for player 2
+        lcd.locate(pos2, 1); lcd.putc(3);
+        lcd.locate(pos2 + 1, 1); lcd.putc(4);
 
-    thread_sleep_for(9000);
+        // Current Player indicator
+        lcd.locate(15, (currentPlayer == &player1) ? 0 : 1); lcd.putc('<');        
+
+    thread_sleep_for(100);
     return;
 }
 
