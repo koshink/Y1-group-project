@@ -107,8 +107,8 @@ void QuizDuels::renderScoreboard() {
     thread_sleep_for(500);
 
     // Draw finish line
-    lcd.locate(10,0); lcd.printf("|");
-    lcd.locate(10,1); lcd.printf("|");
+    lcd.locate(10,0); lcd.putc(5);
+    lcd.locate(10,1); lcd.putc(5);
 
     // Calculate the position of the '#' for each player
     int pos1 = 2 * player1.score;
@@ -118,13 +118,13 @@ void QuizDuels::renderScoreboard() {
     pos1 = pos1 > 10 ? 10 : pos1;
     pos2 = pos2 > 10 ? 10 : pos2;
 
-    // Draw the score for player 1
-    lcd.locate(pos1, 0);
-    lcd.printf("#");
+    // Draw the car for player 1
+    lcd.locate(pos1, 0); lcd.putc(3);
+    lcd.locate(pos1 + 1, 0); lcd.putc(4);
 
     // Draw the score for player 2
-    lcd.locate(pos2, 1);
-    lcd.printf("#");
+    lcd.locate(pos2, 1); lcd.putc(3);
+    lcd.locate(pos2 + 1, 1); lcd.putc(4);
 
     thread_sleep_for(500);
     return;
