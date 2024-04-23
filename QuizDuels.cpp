@@ -24,20 +24,20 @@ void QuizDuels::startGame() {
         
         // When input pressed show the current scoreboard
         if (correctAnswer == true) {
-
+            // Chooses which animation of score increasing to display based on whether the question was answered correctly
             if (currentPlayer == &player1) {
                 renderScoreboard(2*player1.score - 2, 2*player2.score);
-                thread_sleep_for(60);
+                thread_sleep_for(30);
                 renderScoreboard(2*player1.score - 1, 2*player2.score);
-                thread_sleep_for(60);
+                thread_sleep_for(30);
             } else if (currentPlayer == &player2) {
                 renderScoreboard(2*player1.score, 2*player2.score - 2);
-                thread_sleep_for(60);
+                thread_sleep_for(30);
                 renderScoreboard(2*player1.score, 2*player2.score - 1);
-                thread_sleep_for(60);
+                thread_sleep_for(30);
             }
-
         }
+        // Render the current scoreboard
         renderScoreboard(2*player1.score, 2*player2.score);
         thread_sleep_for(1000); 
 
@@ -117,11 +117,6 @@ void QuizDuels::checkAnswer() {
     return;
 }
 
-
-// Render previous scoreboard
-// Render previous scoreboard with player correct guess moved one over
-// Render new scoreboard
-
 void QuizDuels::renderScoreboard(int player1Score, int player2Score) {
         lcd.cls();
         thread_sleep_for(500);
@@ -157,16 +152,14 @@ void QuizDuels::renderPlayerSwitch() {
     // Switch the current player
     currentPlayer = (currentPlayer == &player1) ? &player2 : &player1;
 
-    lcd.cls();
-    lcd.printf("Pass to");
+    lcd.cls(); lcd.printf("Pass to");
+    lcd.locate(0,1); lcd.printf("Player %d", (currentPlayer == &player1) ? 1 : 2);
 
-    lcd.locate(0,1);
-    lcd.printf("Player %d", (currentPlayer == &player1) ? 1 : 2);
     return;
 }
 
 void QuizDuels::displayWinner() {
-        lcd.cls();
+    lcd.cls();
 
     // Determine the winner
     int winner = (player1.score > player2.score) ? 1 : 2;
