@@ -126,7 +126,11 @@ void QuizDuels::renderScoreboard() {
     lcd.locate(pos2, 1); lcd.putc(3);
     lcd.locate(pos2 + 1, 1); lcd.putc(4);
 
-    thread_sleep_for(500);
+    // Current Player indicator
+    lcd.locate(15, (currentPlayer == &player1) ? 0 : 1); lcd.putc('<');
+    
+
+    thread_sleep_for(9000);
     return;
 }
 
