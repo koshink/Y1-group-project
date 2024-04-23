@@ -157,3 +157,11 @@ int TextLCD::rows() {
             return 2;
     }
 }
+
+
+void TextLCD::defineCustomChar(int location, char* charmap) {
+    writeCommand(0x40 + (location * 8));
+    for (int i = 0; i < 8; i++) {
+        writeData(charmap[i]);
+    }
+}
