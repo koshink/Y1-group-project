@@ -61,7 +61,8 @@ private:
     // Rendering methods
     void renderQuestion();
     void renderAnswer();
-    void renderScoreboard(int player1Score, int player2Score);
+    void renderScoreboard();
+    void renderCar(int pos1, int pos2);
     void renderPlayerSwitch();
 
     // Utility methods
