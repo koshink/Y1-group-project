@@ -25,9 +25,8 @@ int main() {
     // Use a loop to define each custom character
     for(int i = 0; i < 8; i++) {
         lcd.defineCustomChar(i, customChars[i]);
-    }
 
-    thread_sleep_for(500);
+    }
     
     // Start Screen 
     lcd.cls();

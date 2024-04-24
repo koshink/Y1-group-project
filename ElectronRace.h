@@ -25,7 +25,11 @@ private:
 
     // Start a thread so inputs are not tied to gamespeed
     Thread inputThread;
-    Mutex mutex;
+    Mutex inputMutex;
+    
+    Thread animationThread;
+    Mutex animationMutex;
+    
     
 
     int playerPos; // The current row that the player is in
@@ -33,6 +37,7 @@ private:
     int score;
     Obstacle obstacles[4]; // Array of the obstacles that exist
     int obstacleCount; // Keeps a count of the amount of obstacles in the game
+    int electronState; // Keeps track of the Electron animation frame
     bool isGameOver;
 
     // Game logic methods
@@ -43,4 +48,5 @@ private:
 
     // Rendering method
     void renderGame();
+    void handleAnimation();
 };

@@ -2,15 +2,17 @@
 
 // Initialise the class by generating an obstacle
 ElectronRace::ElectronRace(TextLCD &lcd, DigitalIn &up, DigitalIn &down, DigitalIn &menu) 
-    : lcd(lcd), up(up), down(down), menu(menu), playerPos(0), obstacleCount(0), obstaclePos(lcd.columns() -1), isGameOver(false), score(0) {
+    : lcd(lcd), up(up), down(down), menu(menu), playerPos(0), obstacleCount(0), obstaclePos(lcd.columns() -1), isGameOver(false), score(0), electronState(0) {
 
     generateObstacle();
 }
 
 
 void ElectronRace::startGame() {
-
+    // Start the input and animation threads
     inputThread.start(callback(this, &ElectronRace::handleInput));
+    animationThread.start(callback(this, &ElectronRace::handleAnimation));
+
 
     int startSleepTime = 12; // Multiplier to set the starting sleepTime to 250ms
     double decreaseRate = 0.2; // Causes a steep drop at the beginning which evens out near the minimum
@@ -35,6 +37,8 @@ void ElectronRace::startGame() {
 
         thread_sleep_for(sleepTime);
 
+        if(!menu) break;
+
     } while (!isGameOver);
 }
 
@@ -42,10 +46,10 @@ void ElectronRace::startGame() {
 void ElectronRace::handleInput() {
     while (true) {
         // Lock the player's current position before moving them
-        mutex.lock();
+        inputMutex.lock();
         playerPos = (!up && playerPos > 0) ? playerPos - 1 : playerPos;
         playerPos = (!down && playerPos < 1) ? playerPos + 1 : playerPos;
-        mutex.unlock();
+        inputMutex.unlock();
 
         // When menu button pressed close the input thread and return to menu
         if(!menu) {
@@ -95,15 +99,15 @@ bool ElectronRace::checkGameOver() {
         // Check if the player's position matches the obstacle's position
         for (int j = 0; j < obstacles[i].length; ++j) {
             // Lock the player position when checking if game is over
-            mutex.lock();
+            inputMutex.lock();
             if (obstacles[i].column - j == 2 && playerPos == obstacles[i].row) {
                 lcd.cls();
                 lcd.locate(0,0); lcd.printf("GAME OVER");
-                lcd.locate(0,1); lcd.printf("Current: %dnA", score);
+                lcd.locate(0,1); lcd.printf("Current: %d", score); lcd.putc(228); lcd.printf("A");
                 thread_sleep_for(1000);
                 return true;
             }
-            mutex.unlock();
+            inputMutex.unlock();
         }
     }
     return false;
@@ -125,23 +129,38 @@ void ElectronRace::generateObstacle() {
     return;
 }
 
+void ElectronRace::handleAnimation() {
+    while (true) {
+        // Lock the electron state before updating it
+        animationMutex.lock();
+        static int direction = 1;
+        electronState += direction;
+        direction = (electronState >= 2) ? -1 : ((electronState <= 0) ? 1 : direction);
+        animationMutex.unlock();
+
+        // Change the sleep time based on the electronState
+        int sleepTime = (electronState == 0 || electronState == 2) ? 800 : 200;
+        thread_sleep_for(sleepTime);
+    }
+}
 
 void ElectronRace::renderGame() {
     // Clears the LCD at the start of each frame
     lcd.cls();
 
     // Draws the player at the position specified
-    mutex.lock();
-    lcd.locate(2, playerPos);
-    lcd.printf("*");
-    mutex.unlock();
+    inputMutex.lock(); animationMutex.lock();
+    lcd.locate(2, playerPos); 
+    lcd.putc(electronState);
+    inputMutex.unlock(); animationMutex.unlock();
+
 
     // Draws all of the obstacles at their positions on screen
     for (int i = 0; i < obstacleCount; ++i) {
         for (int j = 0; j < obstacles[i].length; ++j) {
             if (obstacles[i].column - j >= 0) {
                 lcd.locate(obstacles[i].column - j, obstacles[i].row);
-                lcd.printf("#");
+                lcd.putc(255);
             }
         }
     }
