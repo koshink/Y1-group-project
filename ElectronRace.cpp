@@ -134,7 +134,7 @@ void ElectronRace::handleAnimation() {
         // Lock the electron state before updating it
         animationMutex.lock();
         static int direction = 1;
-        electronState += direction;
+        electronState += direction; // Change the iteration direction 
         direction = (electronState >= 2) ? -1 : ((electronState <= 0) ? 1 : direction);
         animationMutex.unlock();
 
