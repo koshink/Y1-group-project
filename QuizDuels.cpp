@@ -112,7 +112,7 @@ void QuizDuels::renderScoreboard() {
     lcd.locate(10,1); lcd.putc(5);
 
     // Current Player indicator
-    lcd.locate(15, (currentPlayer == &player1) ? 0 : 1); lcd.putc('<');        
+    lcd.locate(15, (currentPlayer == &player1) ? 0 : 1); lcd.printf("<");        
 
     if (correctAnswer == true) {
         // Chooses which animation of score increasing to display based on whether the question was answered correctly
@@ -146,8 +146,8 @@ void QuizDuels::renderCar(int pos1, int pos2) {
 
    if (currentPlayer == &player1) {
         // Clear the previous position of the car for player 1
-        lcd.locate(pos1 - 1, 0); lcd.putc(' ');
-        lcd.locate(pos1, 0); lcd.putc(' ');
+        lcd.locate(pos1 - 1, 0); lcd.putc(254);
+        lcd.locate(pos1, 0); lcd.putc(254);
    }
 
     // Draw the car for player 1
@@ -156,8 +156,8 @@ void QuizDuels::renderCar(int pos1, int pos2) {
     
     if (currentPlayer == &player2) {
         // Clear the previous position of the car for player 2
-        lcd.locate(pos2 - 1, 1); lcd.putc(' ');
-        lcd.locate(pos2, 1); lcd.putc(' ');
+        lcd.locate(pos2 - 1, 1); lcd.putc(254);
+        lcd.locate(pos2, 1); lcd.putc(254);
     }
 
     // Draw the car for player 2
