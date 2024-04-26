@@ -42,13 +42,14 @@ private:
     Player *currentPlayer;
 
     // Create the questions 
+    int lastQuestionIndex;
     int currentQuestionIndex;
     int questionCount = sizeof(questions) / sizeof(questions[0]);
 
     // Question array
     Question questions[25] = {
-    {"What is the unit\n of current?", "Farad", "Volt", "Ohm", "Ampere", 3},
-    {"What does a CPU\n do?", "Store", "Process", "Display", "Cool", 1},
+    {"What is the unit\nof current?", "Farad", "Volt", "Ohm", "Ampere", 3},
+    {"What does a CPU\ndo?", "Store", "Process", "Display", "Cool", 1},
     {"What is a CPU?", "Wire", "Disc", "Chip", "Coil", 2},
     {"What type of \nsignal is HDMI?", "Audio", "Digital", "Radio", "Analog", 1},
     {"What does R \nmean in RAM?", "Random", "React", "Root", "Real", 0},
@@ -58,20 +59,20 @@ private:
     {"When closed, \na switch is...", "Both", "On", "Off", "nan", 1},
     {"What does B \nmean in BIOS?", "Binary", "Basic", "Built", "Bit", 1},
     {"How many bits \nis a byte?", "8", "16", "2", "4", 0},
-    {"Choose the odd\n one out", "PyCharm", "C++", "Python", "Java", 0},
+    {"Choose the odd\none out", "PyCharm", "C++", "Python", "Java", 0},
     {"Who was a \nfounder of Apple?", "L Page", "S Jobs", "B Gates", "S Brin", 1},
     {"What is the \nunit of power?", "Ohm", "Watt", "Farad", "Volt", 1},
     {"Which is a \nmobile OS?", "Android", "Windows", "Linux", "MacOS", 0},
     {"What is 8 \nin binary?", "1100", "0101", "0011", "1000", 3},
-    {"What base is\n hexadecimal?", "8", "2", "10", "16", 3},
+    {"What base is\nhexadecimal?", "8", "2", "10", "16", 3},
     {"What is \n1 AND 0?", "1", "nan", "X", "0", 3},
-    {"What is 1001\n in denary?", "9", "10", "11", "8", 0},
-    {"Which do humans\n count in?", "Denary", "Octal", "Binary", "Hex", 0},
-    {"How many bytes\n is 16 bits?", "4", "1", "2", "16", 2},
-    {"Which does a\n resistor use?", "Ohm", "Henry", "Farad", "nan", 0},
-    {"What does D\n mean in LED?", "Digit", "Diode", "Dome", "Device", 1},
-    {"What is\n 1 OR 0?", "X", "nan", "1", "0", 2},
-    {"When open,\n a switch is...", "Both", "On", "nan", "Off", 3}
+    {"What is 1001\nin denary?", "9", "10", "11", "8", 0},
+    {"Which do humans\ncount in?", "Denary", "Octal", "Binary", "Hex", 0},
+    {"How many bytes\nis 16 bits?", "4", "1", "2", "16", 2},
+    {"Which does a\nresistor use?", "Ohm", "Henry", "Farad", "nan", 0},
+    {"What does D\nmean in LED?", "Digit", "Diode", "Dome", "Device", 1},
+    {"What is\n1 OR 0?", "X", "nan", "1", "0", 2},
+    {"When open,\na switch is...", "Both", "On", "nan", "Off", 3}
     };
 
 

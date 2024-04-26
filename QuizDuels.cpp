@@ -13,8 +13,12 @@ void QuizDuels::startGame() {
 
     // Main game loop
     while(!checkGameOver()) {
-        currentQuestionIndex = rand() % questionCount;  // Choose a random question
-        
+        do {
+            currentQuestionIndex = rand() % questionCount;  // Choose a random question
+        } while (currentQuestionIndex == lastQuestionIndex);  // Keep generating a new index until it's different from the last one
+
+        lastQuestionIndex = currentQuestionIndex;  // Update the last question index
+
         // Show question screen
         renderQuestion();
         thread_sleep_for(2000);
