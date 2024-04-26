@@ -17,7 +17,7 @@ void QuizDuels::startGame() {
         
         // Show question screen
         renderQuestion();
-        thread_sleep_for(1000);
+        thread_sleep_for(2000);
         // Show answer screen and wait for an input
         renderAnswer(); 
         if (handleInput()) break;
