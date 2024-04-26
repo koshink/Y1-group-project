@@ -56,7 +56,7 @@ private:
     {"Which is a \ndesktop OS?", "MacOS", "iOS", "Fire OS", "Android", 0},
     {"What is \nOhm's Law?", "C=QV", "V=IR", "R=I/V", "P=VI", 1},
     {"Time constant \nof capacitor?", "VC", "RC", "LC", "EC", 1},
-    {"When closed, \na switch is...", "Both", "On", "Off", "nan", 1},
+    {"When closed, \na switch is...", "Both", "On", "Off", "None", 1},
     {"What does B \nmean in BIOS?", "Binary", "Basic", "Built", "Bit", 1},
     {"How many bits \nis a byte?", "8", "16", "2", "4", 0},
     {"Choose the odd\none out", "PyCharm", "C++", "Python", "Java", 0},
@@ -65,14 +65,14 @@ private:
     {"Which is a \nmobile OS?", "Android", "Windows", "Linux", "MacOS", 0},
     {"What is 8 \nin binary?", "1100", "0101", "0011", "1000", 3},
     {"What base is\nhexadecimal?", "8", "2", "10", "16", 3},
-    {"What is \n1 AND 0?", "1", "nan", "X", "0", 3},
+    {"What is \n1 AND 0?", "1", "None", "X", "0", 3},
     {"What is 1001\nin denary?", "9", "10", "11", "8", 0},
     {"Which do humans\ncount in?", "Denary", "Octal", "Binary", "Hex", 0},
     {"How many bytes\nis 16 bits?", "4", "1", "2", "16", 2},
-    {"Which does a\nresistor use?", "Ohm", "Henry", "Farad", "nan", 0},
+    {"Which does a\nresistor use?", "Ohm", "Henry", "Farad", "None", 0},
     {"What does D\nmean in LED?", "Digit", "Diode", "Dome", "Device", 1},
-    {"What is\n1 OR 0?", "X", "nan", "1", "0", 2},
-    {"When open,\na switch is...", "Both", "On", "nan", "Off", 3}
+    {"What is\n1 OR 0?", "X", "None", "1", "0", 2},
+    {"When open,\na switch is...", "Both", "On", "None", "Off", 3}
     };
 
 
