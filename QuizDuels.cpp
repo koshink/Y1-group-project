@@ -21,7 +21,7 @@ void QuizDuels::startGame() {
 
         // Show question screen
         renderQuestion();
-        thread_sleep_for(2000);
+        thread_sleep_for(3000);
         // Show answer screen and wait for an input
         renderAnswer(); 
         if (handleInput()) break;
@@ -35,7 +35,7 @@ void QuizDuels::startGame() {
         if (!isGameOver) {
             // Render the switch player screen
             renderPlayerSwitch();
-            thread_sleep_for(2000); 
+            thread_sleep_for(5000); 
         } else {
             // Reset the game
             currentQuestionIndex = 0;
