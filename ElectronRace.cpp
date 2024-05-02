@@ -82,7 +82,7 @@ void ElectronRace::updateGame() {
             ++score;
         }
     }
-    int obstacleGen = (score > 15) ? 7 : 10;
+    int obstacleGen = (score > 20) ? 7 : 10;
 
     // Generate a new obstacle if the tail of the previous obstacle is in column 9
     if (obstacleCount == 0 || (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length == obstacleGen && !obstacleGenerated)) {
