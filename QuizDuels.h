@@ -2,7 +2,6 @@
 
 #include "mbed.h"
 #include "TextLCD.h"
-#include <vector>
 
 // Create a struct for each player
 struct Player {
