@@ -58,8 +58,10 @@ public:
      * @param d4-d7 Data lines for using as a 4-bit interface
      * @param type  Sets the panel size/addressing mode (default = LCD16x2)
      */
+    TextLCD(PinName rs, PinName e, PinName d4, PinName d5, PinName d6, PinName d7, LCDType type = LCD16x2);
 
-     /** Define a custom character
+
+    /** Define a custom character
      *
      * @param location The location to store the character (0-7)
      * @param charmap  A pointer to an array of 8 bytes that define the character
@@ -67,7 +69,6 @@ public:
     void defineCustomChar(int location, char* charmap);
 
 
-    TextLCD(PinName rs, PinName e, PinName d4, PinName d5, PinName d6, PinName d7, LCDType type = LCD16x2);
 
 #if DOXYGEN_ONLY
     /** Write a character to the LCD
