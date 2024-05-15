@@ -121,12 +121,9 @@ void QuizDuels::renderScoreboard() {
     if (correctAnswer == true) {
         // Chooses which animation of score increasing to display based on whether the question was answered correctly
         if (currentPlayer == &player1) {
-            renderCar(2*player1.score - 2, 2*player2.score);
-            thread_sleep_for(200);
-            renderCar(2*player1.score - 1, 2*player2.score);
-            thread_sleep_for(200);
-            renderCar(2*player1.score, 2*player2.score);
-            thread_sleep_for(200);
+            renderCar(2*player1.score - 2, 2*player2.score); thread_sleep_for(200);
+            renderCar(2*player1.score - 1, 2*player2.score); thread_sleep_for(200);
+            renderCar(2*player1.score, 2*player2.score); thread_sleep_for(200);
         } else if (currentPlayer == &player2) {
             renderCar(2*player1.score, 2*player2.score - 2);
             thread_sleep_for(200);
