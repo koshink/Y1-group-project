@@ -119,17 +119,11 @@ void QuizDuels::renderScoreboard() {
     lcd.locate(15, (currentPlayer == &player1) ? 0 : 1); lcd.printf("<");        
 
     if (correctAnswer == true) {
-        // Chooses which animation of score increasing to display based on whether the question was answered correctly
-        if (currentPlayer == &player1) {
-            renderCar(2*player1.score - 2, 2*player2.score); thread_sleep_for(200);
-            renderCar(2*player1.score - 1, 2*player2.score); thread_sleep_for(200);
-            renderCar(2*player1.score, 2*player2.score); thread_sleep_for(200);
-        } else if (currentPlayer == &player2) {
-            renderCar(2*player1.score, 2*player2.score - 2);
-            thread_sleep_for(200);
-            renderCar(2*player1.score, 2*player2.score - 1);
-            thread_sleep_for(200);
-            renderCar(2*player1.score, 2*player2.score);
+        int start = (currentPlayer == &player1) ? 2*player1.score - 2 : 2*player2.score - 2;
+        int end = (currentPlayer == &player1) ? 2*player1.score : 2*player2.score;
+
+        for (int i = start; i <= end; i++) {
+            renderCar(i, i);
             thread_sleep_for(200);
         }
     }
@@ -140,31 +134,24 @@ void QuizDuels::renderScoreboard() {
 }
 
 void QuizDuels::renderCar(int pos1, int pos2) {
-
     // Ensure the position does not exceed the finish line
     pos1 = pos1 > 10 ? 10 : pos1;
     pos2 = pos2 > 10 ? 10 : pos2;
 
-   if (currentPlayer == &player1) {
-        // Clear the previous position of the car for player 1
-        lcd.locate(pos1 - 1, 0); lcd.putc(254);
-        lcd.locate(pos1, 0); lcd.putc(254);
-   }
+    renderPlayerCar(pos1, 0, &player1);
+    renderPlayerCar(pos2, 1, &player2);
+}
 
-    // Draw the car for player 1
-    lcd.locate(pos1, 0); lcd.putc(3);
-    lcd.locate(pos1 + 1, 0); lcd.putc(4);
-    
-    if (currentPlayer == &player2) {
-        // Clear the previous position of the car for player 2
-        lcd.locate(pos2 - 1, 1); lcd.putc(254);
-        lcd.locate(pos2, 1); lcd.putc(254);
+void QuizDuels::renderPlayerCar(int pos, int row, Player *player) {
+    if (currentPlayer == player) {
+        // Clear the previous position of the car
+        lcd.locate(pos - 1, row); lcd.putc(254);
+        lcd.locate(pos, row); lcd.putc(254);
     }
 
-    // Draw the car for player 2
-    lcd.locate(pos2, 1); lcd.putc(3);
-    lcd.locate(pos2 + 1, 1); lcd.putc(4);
-    
+    // Draw the car
+    lcd.locate(pos, row); lcd.putc(3);
+    lcd.locate(pos + 1, row); lcd.putc(4);
 }
 
 void QuizDuels::renderPlayerSwitch() {
