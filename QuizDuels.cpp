@@ -122,6 +122,7 @@ void QuizDuels::renderScoreboard() {
     (currentPlayer == &player1) ? renderCar(2*player2.score, 1, &player2) : renderCar(2*player1.score, 0, &player1);
 
     if (correctAnswer == true) {
+        // Define the current score and the new score as limits to move between
         int start = (currentPlayer == &player1) ? 2*player1.score - 2 : 2*player2.score - 2;
         int end = (currentPlayer == &player1) ? 2*player1.score : 2*player2.score;
 
@@ -130,7 +131,9 @@ void QuizDuels::renderScoreboard() {
             renderCar(i, (currentPlayer == &player1) ? 0 : 1, currentPlayer);
             thread_sleep_for(200);
         }
-    }
+    } 
+    // Render current player's car if if answer is wrong
+    (currentPlayer == &player1) ? renderCar(2*player1.score, 0, &player1) : renderCar(2*player2.score, 1, &player2);
 
     thread_sleep_for(100);
     return;
