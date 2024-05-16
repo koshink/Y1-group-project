@@ -88,8 +88,7 @@ private:
     void renderQuestion();
     void renderAnswer();
     void renderScoreboard();
-    void renderCar(int pos1, int pos2);
-    void renderPlayerCar(int pos, int row, Player* player);
+    void renderCar(int pos, int row, Player* player);
     void renderPlayerSwitch();
 
     // Utility methods
