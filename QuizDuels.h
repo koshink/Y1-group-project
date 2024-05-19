@@ -49,7 +49,8 @@ private:
     
     Question questions[25] = {
     /* each questions takes the form, 
-    {Question, A, B, C, D, correct answer location (0-3)} */
+    {Question, A, B, C, D, correct answer location (0-3)}
+    a \n is placed to stop words overflowing to the next line */
     {"What is the unit\nof current?", "Farad", "Volt", "Ohm", "Ampere", 3},
     {"What does a CPU\ndo?", "Store", "Process", "Display", "Cool", 1},
     {"What is a CPU?", "Wire", "Disc", "Chip", "Coil", 2},
