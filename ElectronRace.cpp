@@ -28,18 +28,15 @@ void ElectronRace::startGame() {
         /* Equation takes the form of Ae(-bx+3)
         It is a negative exponential so that the time between obstacles decreases
         over time before plateauing at a minimum sleep time */
-        int sleepTime;
-        if (startSleepTime * exp(-decreaseRate * score + 3) < minSleepTime) {
-            sleepTime = minSleepTime;
-        } else {
-            sleepTime = startSleepTime * exp(-decreaseRate * score + 3);
-        }
+        int sleepTime = startSleepTime * exp(-decreaseRate * score + 3);
+        if (sleepTime < minSleepTime) { sleepTime = minSleepTime; }
 
         thread_sleep_for(sleepTime);
 
         if(!menu) break;
 
     } while (!isGameOver);
+
 }
 
 
@@ -84,11 +81,11 @@ void ElectronRace::updateGame() {
     }
     int obstacleGen = (score > 20) ? 7 : 10;
 
-    // Generate a new obstacle if the tail of the previous obstacle is in column 9
+    // Generate a new obstacle if the tail of the previous obstacle is in column specified by obstacleGen
     if (obstacleCount == 0 || (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length == obstacleGen && !obstacleGenerated)) {
         generateObstacle();
         obstacleGenerated = true;  // Set the flag to true after generating an obstacle
-    // Ensure the gap between obstacles is ate least 3 so columns 8-12
+    // Ensure the gap between obstacles is at least 3 so columns 8-12
     } else if (obstacleCount > 0 && obstacles[obstacleCount - 1].column - obstacles[obstacleCount - 1].length <= 12) {
         obstacleGenerated = false;  // Reset the flag when the end of the last obstacle is not in column 12
     }
