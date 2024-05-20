@@ -76,7 +76,7 @@ int QuizDuels::handleInput() {
 void QuizDuels::renderQuestion() {
     // Reset the lcd then display the question
     lcd.cls();
-    lcd.printf("%s", questions[currentQuestionIndex].text);
+    lcd.printf("%s", questions[currentQuestionIndex].question);
     thread_sleep_for(500);
     return;
 }

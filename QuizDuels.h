@@ -8,10 +8,10 @@ struct Player {
     int score;
 };
 
-// Create a struct to handle each question along with it's answers
+// Create a struct to handle each question along with its answers
 struct Question {
-    char text[100];
-    char answers[4][100];
+    char question[30];
+    char answers[4][8];
     int correctAnswer;
 };
 
@@ -46,7 +46,6 @@ private:
     int questionCount = sizeof(questions) / sizeof(questions[0]);
 
     // Question array
-    
     Question questions[25] = {
     /* each questions takes the form, 
     {Question, A, B, C, D, correct answer location (0-3)}
