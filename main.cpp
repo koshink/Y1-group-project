@@ -3,10 +3,10 @@
 #include "menu.h"
 
 // LCD Display
-TextLCD lcd(D0,D1,D2,D3,D4,D5, TextLCD::LCD20x4);
+TextLCD lcd(D0,D1,D2,D3,D4,D6, TextLCD::LCD20x4);
 
 // Buttons
-DigitalIn menuButton(D13, PullUp), action(D12, PullUp), up(D11, PullUp), left(D10, PullUp), down(D9, PullUp), right(D8, PullUp);
+DigitalIn menuButton(D12, PullUp), action(D13, PullUp), up(D10, PullUp), left(D8, PullUp), down(D11, PullUp), right(D9, PullUp);
 
 // Main loop
 int main() {
